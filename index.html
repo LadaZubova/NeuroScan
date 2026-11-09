@@ -58,25 +58,21 @@
     <h2 class="section-title">Знакомые проблемы?</h2>
     <div class="pains-grid">
       <div class="glass-card pain-card">
-        <div class="icon">⏱</div>
         <h3>Перегрузка врачей</h3>
         <p>До 100 снимков в смену, «замыливается» глаз, растёт риск ошибки.</p>
         <div class="solution">✓ Нейросеть берёт первичный скрининг на себя</div>
       </div>
       <div class="glass-card pain-card">
-        <div class="icon">⌛</div>
         <h3>Пациенты ждут неделями</h3>
         <p>В регионах результат КТ можно ждать 2–3 дня вместо 5 минут.</p>
         <div class="solution">✓ Врач получает снимок с размеченными зонами</div>
       </div>
       <div class="glass-card pain-card">
-        <div class="icon">📉</div>
         <h3>Клиника теряет деньги</h3>
         <p>Низкая пропускная способность отделения и очереди на диагностику.</p>
         <div class="solution">✓ Пропускная способность отделения +35%</div>
       </div>
       <div class="glass-card pain-card">
-        <div class="icon">⚠</div>
         <h3>Риск пропустить патологию</h3>
         <p>Мелкие новообразования и микротрещины легко пропустить.</p>
         <div class="solution">✓ Чувствительность 94.8%</div>
@@ -168,22 +164,15 @@
   <div class="container">
     <h2 class="section-title">Увидьте разницу за 5 секунд</h2>
     <p class="section-sub">Подвиньте ползунок: слева — обычный снимок, справа — тот же снимок с разметкой нейросети.</p>
-    
     <div class="ba-wrapper glass-card" id="baWrapper">
-      <!-- Обычный снимок (фон) -->
       <img src="./images/xray_before.jpg" alt="До" class="ba-img">
-      
-      <!-- Снимок с разметкой от YOLO (накладывается сверху) -->
       <div class="ba-after" id="baAfter">
         <img src="./images/xray_after.jpg" alt="После" class="ba-img">
       </div>
-      
-      <!-- Ползунок -->
       <div class="ba-handle" id="baHandle">
         <div class="ba-circle">⇆</div>
       </div>
     </div>
-    
     <div class="ba-labels">
       <span>До: обычный снимок</span>
       <span style="color: #0ea5e9;">После: разметка YOLO</span>
@@ -196,19 +185,16 @@
   <div class="container" style="position: relative; z-index: 2;">
     <h2 class="section-title">Живое AI-демо</h2>
     <p class="section-sub">Выберите тип анализа и загрузите снимок.</p>
-    
     <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 32px;">
       <button class="btn btn-pill btn-primary" id="btn-tm" onclick="switchTab('tm')">Teachable Machine</button>
       <button class="btn btn-pill btn-glass" id="btn-yolo" onclick="switchTab('yolo')">YOLO (Python)</button>
     </div>
-
     <!-- Вкладка 1: TM -->
     <div id="tab-tm">
       <div class="ai-demo-grid">
         <div class="glass-card ai-drop" id="aiDrop">
           <input type="file" id="aiFile" accept="image/*" hidden>
           <div class="ai-drop-inner" id="aiDropInner">
-            <div class="ai-drop-icon">⬆</div>
             <div class="ai-drop-title">Загрузите снимок</div>
             <div class="ai-drop-sub">TM выдаст вероятность</div>
           </div>
@@ -225,14 +211,12 @@
         </div>
       </div>
     </div>
-
     <!-- Вкладка 2: YOLO -->
     <div id="tab-yolo" style="display: none;">
       <div class="ai-demo-grid">
         <div class="glass-card ai-drop" id="yoloDrop">
           <input type="file" id="yoloFile" accept="image/*" hidden>
           <div class="ai-drop-inner" id="yoloDropInner">
-            <div class="ai-drop-icon">⬆</div>
             <div class="ai-drop-title">Загрузите снимок</div>
             <div class="ai-drop-sub">YOLO выделит рамки</div>
           </div>
