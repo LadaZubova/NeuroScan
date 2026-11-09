@@ -235,3 +235,47 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     };
   };
 })();
+/* ============================================================
+   ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР ОКУПАЕМОСТИ
+   ============================================================ */
+(function() {
+  const scansInput = document.getElementById('calc-scans');
+  const priceInput = document.getElementById('calc-price');
+  
+  if (!scansInput || !priceInput) return;
+
+  const scansVal = document.getElementById('calc-scans-val');
+  const priceVal = document.getElementById('calc-price-val');
+  const revenueOut = document.getElementById('calc-revenue');
+  const timeOut = document.getElementById('calc-time');
+
+  // Функция форматирования чисел с пробелами (например: 1 500 000)
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+
+  function updateCalculator() {
+    const scans = parseInt(scansInput.value);
+    const price = parseInt(priceInput.value);
+
+    // Обновляем значения ползунков
+    scansVal.textContent = scans;
+    priceVal.textContent = price;
+
+    // Расчет доп. выручки: (Кол-во снимков * Цена) * 35%
+    const currentRevenue = scans * price;
+    const extraRevenue = Math.round(currentRevenue * 0.35);
+    revenueOut.textContent = formatNumber(extraRevenue) + ' ₽';
+
+    // Расчет сэкономленного времени: (scans * 10 минут) / 60
+    const hoursSaved = Math.round((scans * 10) / 60);
+    timeOut.textContent = formatNumber(hoursSaved) + ' часов';
+  }
+
+  // Слушаем изменения ползунков
+  scansInput.addEventListener('input', updateCalculator);
+  priceInput.addEventListener('input', updateCalculator);
+
+  // Запускаем при загрузке страницы
+  updateCalculator();
+})();
