@@ -1,0 +1,188 @@
+:root {
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
+  --accent: #0ea5e9; 
+  --accent-hover: #0284c7;
+  
+  /* Настройки стекла */
+  --glass-bg: rgba(15, 23, 42, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --glass-blur: blur(16px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background: #020617; /* Темный фон на случай, если картинка не прогрузится */
+}
+
+/* ГЛОБАЛЬНЫЙ ФОН */
+.bg-image {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('./images/bg.jpg');
+  background-size: cover; background-position: center;
+  z-index: -2; 
+  filter: brightness(0.3); /* Затемняем фото, чтобы читался текст */
+}
+
+/* УТИЛИТЫ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.text-center { text-align: center; }
+.section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+
+/* СТЕКЛЯННАЯ КАРТОЧКА */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  box-shadow: var(--glass-shadow);
+  padding: 32px;
+}
+
+/* КНОПКИ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 28px; font-size: 15px; font-weight: 500;
+  text-decoration: none; border-radius: 50px; cursor: pointer;
+  transition: all 0.3s ease; border: none; font-family: 'Inter', sans-serif;
+}
+.btn-primary { 
+  background: var(--accent); color: white; 
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); 
+}
+.btn-primary:hover { 
+  background: var(--accent-hover); 
+  transform: translateY(-2px); 
+}
+.btn-glass { 
+  background: rgba(255,255,255,0.1); color: white; 
+  border: 1px solid var(--glass-border); 
+}
+.btn-glass:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* ТИПОГРАФИКА */
+h1, h2, h3, .section-title { 
+  font-family: 'Playfair Display', serif; 
+  font-weight: 500; letter-spacing: -0.02em; 
+}
+h1 { font-size: clamp(32px, 4vw, 52px); line-height: 1.1; margin-bottom: 24px; }
+h1 .accent { color: var(--accent); font-style: italic; }
+.section-title { font-size: clamp(28px, 3vw, 40px); margin-bottom: 16px; text-align: center; }
+.section-sub { color: var(--text-muted); font-size: 18px; text-align: center; margin-bottom: 48px; }
+
+/* HEADER (Парящий) */
+.glass-header {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+  width: 90%; max-width: 1200px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px; background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 60px; z-index: 1000;
+}
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 20px; color: white; text-decoration: none; font-family: 'Playfair Display', serif;}
+.logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 15px; transition: color 0.3s; }
+.nav-links a:hover { color: white; }
+
+/* HERO (Первый экран) */
+.hero { padding: 160px 24px 80px; display: flex; justify-content: center; }
+.hero-wrapper { display: flex; flex-direction: row; gap: 32px; max-width: 1200px; width: 100%; align-items: stretch; }
+.hero-text-block { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 48px; }
+.hero-image-block { flex: 1; position: relative; border-radius: 30px; overflow: hidden; border: 1px solid var(--glass-border); min-height: 450px; }
+.hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.hero-badge { display: inline-block; padding: 8px 16px; background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 50px; font-size: 13px; margin-bottom: 24px; color: #7dd3fc; align-self: flex-start; }
+.hero-sub { color: var(--text-muted); font-size: 18px; margin-bottom: 32px; }
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-micro { font-size: 14px; color: var(--text-muted); }
+
+/* Анимация сканера */
+.scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--accent); box-shadow: 0 0 20px 5px rgba(14, 165, 233, 0.6); animation: scan 3s infinite linear; z-index: 5; }
+@keyframes scan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+.scan-label { position: absolute; top: 16px; left: 16px; background: rgba(0, 0, 0, 0.7); padding: 8px 16px; border-radius: 50px; font-size: 13px; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 8px; z-index: 10; }
+.dot-red { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 10px #ef4444; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* СЕТКИ (Блоки по ТЗ) */
+.pains-grid, .steps, .trust-grid, .econ-table { display: grid; gap: 24px; }
+.pains-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.steps, .trust-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.econ-table { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+/* Карточки */
+.pain-card .icon { font-size: 32px; margin-bottom: 16px; }
+.pain-card h3, .step h3, .trust-card h3 { font-size: 20px; margin-bottom: 12px; font-family: 'Playfair Display', serif; }
+.pain-card p, .step p, .trust-card p { color: var(--text-muted); font-size: 15px; }
+.pain-card .solution { color: #4ade80; font-size: 14px; font-weight: 500; margin-top: 16px; display: block; }
+.step { position: relative; padding-top: 40px; }
+.step-num { position: absolute; top: -20px; left: 32px; width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 24px; box-shadow: 0 0 20px rgba(14, 165, 233, 0.5); }
+.trust-card .stat { font-size: 36px; font-weight: bold; color: var(--accent); margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+.econ-item { text-align: center; }
+.econ-item .value { font-size: 32px; font-weight: bold; color: var(--accent); margin-bottom: 8px; font-family: 'Playfair Display', serif;}
+.econ-item .label { color: var(--text-muted); font-size: 14px; }
+
+/* Кейс */
+.case-card { max-width: 900px; margin: 0 auto; border-left: 4px solid var(--accent); }
+.case-quote { font-size: 18px; font-style: italic; margin-bottom: 24px; line-height: 1.6; }
+.case-author { display: flex; align-items: center; gap: 16px; }
+.case-avatar { width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.case-author .name { font-weight: 600; }
+.case-author .role { font-size: 14px; color: var(--text-muted); }
+
+/* AI DEMO SECTION */
+.ai-demo-section { position: relative; padding: 100px 24px; overflow: hidden; max-width: 100%; }
+.waves-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('./images/waves.jpg'); background-size: cover; background-position: center; opacity: 0.2; z-index: 0; }
+.ai-demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto; }
+.ai-drop { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 450px; text-align: center; border: 2px dashed rgba(255,255,255,0.2); transition: all 0.3s; padding: 0; overflow: hidden; position: relative; }
+.ai-drop:hover { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+.ai-drop-inner { padding: 24px; }
+.ai-drop-icon { font-size: 40px; margin-bottom: 16px; color: var(--accent); }
+.ai-drop-title { font-weight: 600; margin-bottom: 8px; font-family: 'Playfair Display', serif; font-size: 20px; }
+.ai-drop-sub { color: var(--text-muted); font-size: 14px; }
+.ai-result { display: flex; flex-direction: column; justify-content: center; min-height: 450px; }
+.ai-result-placeholder { text-align: center; color: var(--text-muted); }
+.ai-status { color: #4ade80; font-size: 20px; font-weight: 600; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+.ai-class { margin-bottom: 16px; }
+.ai-class-name { font-weight: 500; margin-bottom: 8px; font-size: 16px; }
+.ai-class-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+.ai-class-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.6s ease; }
+.ai-class-prob { text-align: right; font-size: 13px; margin-top: 4px; font-weight: bold; }
+.ai-meta { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+.ai-loading { text-align: center; color: var(--accent); font-weight: 500; }
+
+/* ФОРМА */
+.form-section { padding-bottom: 120px; }
+.form-wrap { max-width: 500px; margin: 0 auto; }
+.form-group { margin-bottom: 16px; }
+.form-group input { width: 100%; padding: 16px 20px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 50px; color: white; font-size: 16px; font-family: 'Inter', sans-serif; outline: none; transition: 0.3s; }
+.form-group input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
+.form-group input::placeholder { color: var(--text-muted); }
+.form-micro { font-size: 13px; text-align: center; color: var(--text-muted); margin-top: 16px; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--glass-border); padding: 30px 0; }
+
+/* АДАПТИВ (Для телефонов и планшетов) */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hero-wrapper { flex-direction: column; } 
+  .hero-image-block { min-height: 300px; } 
+  .hero-text-block { padding: 32px; }
+}
+
+@media (max-width: 768px) {
+  .ai-demo-grid { grid-template-columns: 1fr; } 
+  .section { padding: 60px 16px; }
+  .glass-header { padding: 10px 16px; }
+  .logo { font-size: 18px; }
+  .btn { padding: 12px 20px; font-size: 14px; }
+}
