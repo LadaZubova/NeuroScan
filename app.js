@@ -15,12 +15,16 @@ window.switchSegment = function(type) {
   if (type === 'state') {
     btnState.classList.add('active');
     btnPrivate.classList.remove('active');
-    badge.textContent = "Для государственных учреждений";
-    title.innerHTML = 'Сократите очереди на КТ и рентген <span class="accent">на 40%</span>';
-    sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan» разгружает врачей, ускоряет отчетность и помогает выполнять планы по ОМС без потери качества.";
+    
+    // ТОЧНЫЙ ТЕКСТ ИЗ ТЗ
+    badge.textContent = "Зарегистрированное медицинское изделие";
+    title.innerHTML = 'Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»';
+    sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.";
   } else {
     btnPrivate.classList.add('active');
     btnState.classList.remove('active');
+    
+    // КОММЕРЧЕСКИЙ ТЕКСТ ДЛЯ ЧАСТНЫХ КЛИНИК
     badge.textContent = "Для частных медицинских центров";
     title.innerHTML = 'Увеличьте маржинальность диагностики <span class="accent">на 35%</span>';
     sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
