@@ -106,7 +106,8 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .hero-wrapper { display: flex; flex-direction: row; gap: 40px; max-width: 1200px; width: 100%; align-items: center; }
 .hero-text-block { flex: 1.1; display: flex; flex-direction: column; justify-content: center; padding: 40px; }
 .hero-image-block { flex: 0.9; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--card-border); min-height: 400px; }
-.hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; 
+}
 
 .hero-badge { display: inline-block; padding: 6px 12px; background: rgba(246, 224, 182, 0.1); border: 1px solid rgba(246, 224, 182, 0.3); border-radius: 50px; font-size: 13px; margin-bottom: 24px; color: var(--accent); align-self: flex-start; }
 .hero-sub { color: var(--text-muted); font-size: 18px; margin-bottom: 32px; }
