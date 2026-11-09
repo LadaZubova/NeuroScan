@@ -1,8 +1,17 @@
+/* ============================================================
+   NeuroScan — клиентская логика
+   ============================================================ */
+
+// Глобальная переменная для хранения последней загруженной картинки
+let globalUploadedFile = null;
+
+/* ---------- 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (С авто-запуском YOLO) ---------- */
 window.switchTab = function (tab) {
   const btnTm = document.getElementById('btn-tm');
   const btnYolo = document.getElementById('btn-yolo');
   const tabTm = document.getElementById('tab-tm');
   const tabYolo = document.getElementById('tab-yolo');
+
   if (tab === 'tm') {
     btnTm.className = 'btn btn-pill btn-primary';
     btnYolo.className = 'btn btn-pill btn-glass';
@@ -13,16 +22,45 @@ window.switchTab = function (tab) {
     btnYolo.className = 'btn btn-pill btn-primary';
     tabTm.style.display = 'none';
     tabYolo.style.display = 'block';
+
+    // 🔥 МАГИЯ АВТОЗАПУСКА: Если картинка уже была загружена, запускаем YOLO
+    if (globalUploadedFile) {
+      // Очищаем старое состояние YOLO
+      const dropInner = document.getElementById('yoloDropInner');
+      const placeholder = document.getElementById('yoloPlaceholder');
+      const content = document.getElementById('yoloContent');
+      const preview = document.getElementById('yoloPreview');
+      
+      if(dropInner) dropInner.style.display = 'none';
+      if(placeholder) placeholder.style.display = 'none';
+      if(content) content.style.display = 'none';
+      if(preview) { 
+        preview.src = URL.createObjectURL(globalUploadedFile); 
+        preview.style.display = 'block'; 
+      }
+
+      // Вызываем функцию отправки на сервер (она определена ниже)
+      if (window.runYoloUpload) {
+        window.runYoloUpload(globalUploadedFile);
+      }
+    }
   }
 };
 
-document.getElementById('leadForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  document.getElementById('formSuccess').style.display = 'block';
-  this.reset();
-});
+/* ---------- 2. ОТПРАВКА ФОРМЫ ---------- */
+(function () {
+  const form = document.getElementById('leadForm');
+  const success = document.getElementById('formSuccess');
+  if (form && success) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      success.style.display = 'block';
+      form.reset();
+    });
+  }
+})();
 
-/* 1. Teachable Machine */
+/* ---------- 3. TEACHABLE MACHINE ---------- */
 (function () {
   const drop = document.getElementById('aiDrop');
   const file = document.getElementById('aiFile');
@@ -30,6 +68,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   const inner = document.getElementById('aiDropInner');
   const result = document.getElementById('aiResult');
   const loading = document.getElementById('aiLoading');
+  
   if (!drop || !file) return;
 
   const placeholder = result.querySelector('.ai-result-placeholder');
@@ -41,6 +80,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   async function loadModel() {
     try {
       model = await tmImage.load("./model/model.json", "./model/metadata.json");
+      console.log("Модель TM загружена!");
     } catch (e) { console.error("TM Error", e); }
   }
   loadModel();
@@ -49,12 +89,16 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   file.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
   async function handleFile(f) {
+    // 🔥 СОХРАНЯЕМ ФАЙЛ ГЛОБАЛЬНО, ЧТОБЫ YOLO ЕГО УВИДЕЛ
+    globalUploadedFile = f; 
+
     preview.src = URL.createObjectURL(f); 
     preview.style.display = 'block';
     inner.style.display = 'none';
     placeholder.style.display = 'none'; 
     content.style.display = 'none';
     loading.style.display = 'block';
+    loading.textContent = 'Нейросеть анализирует снимок...';
 
     if (!model) return loading.textContent = "Модель грузится...";
 
@@ -80,7 +124,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   }
 })();
 
-/* 2. YOLO (Через Python-сервер) */
+/* ---------- 4. YOLO (Через Python-сервер) ---------- */
 (function() {
   const drop = document.getElementById('yoloDrop');
   const file = document.getElementById('yoloFile');
@@ -94,14 +138,20 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   if (!drop || !file) return;
 
   drop.addEventListener('click', () => file.click());
-  file.addEventListener('change', (e) => { if (e.target.files[0]) uploadImage(e.target.files[0]); });
+  file.addEventListener('change', (e) => { 
+    if (e.target.files[0]) {
+      globalUploadedFile = e.target.files[0]; // Сохраняем, если загрузили тут
+      window.runYoloUpload(e.target.files[0]); 
+    }
+  });
 
-  async function uploadImage(imageFile) {
+  // Экспортируем функцию наружу, чтобы switchTab мог её вызвать
+  window.runYoloUpload = async function(imageFile) {
     inner.style.display = 'none';
     placeholder.style.display = 'none';
     content.style.display = 'none';
     loading.style.display = 'block';
-    loading.textContent = "Связь с Python-сервером...";
+    loading.textContent = "YOLO анализирует снимок...";
 
     preview.src = URL.createObjectURL(imageFile);
     preview.style.display = 'block';
@@ -113,7 +163,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        //  ОТПРАВЛЯЕМ НА НАШ PYTHON-СЕРВЕР
         const response = await fetch('http://127.0.0.1:5000/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -134,9 +183,9 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           throw new Error(data.error);
         }
       } catch (err) {
-        loading.textContent = "Ошибка: Python-сервер не запущен или недоступен.";
+        loading.textContent = "Ошибка: Python-сервер не запущен.";
         loading.style.color = "#ef4444";
       }
     };
-  }
+  };
 })();
