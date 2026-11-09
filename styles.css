@@ -231,6 +231,42 @@ h1 .accent { color: var(--accent); font-style: italic; }
 footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: var(--bg-color); }
 
 /* ============================================================
+   ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР (Инвертированные цвета)
+   ============================================================ */
+.calculator-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  border-left: 4px solid var(--accent);
+  background: var(--text-main) !important; /* Светлый фон */
+  color: var(--bg-color); /* Темный текст */
+}
+.calc-header { text-align: center; margin-bottom: 32px; }
+.calc-header h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--bg-color); margin-bottom: 8px; }
+.calc-header p { color: var(--bg-color); opacity: 0.8; font-size: 15px; }
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.calc-group { margin-bottom: 24px; }
+.calc-group label { display: block; font-size: 15px; margin-bottom: 12px; color: var(--bg-color); font-weight: 600; }
+.calc-group label span { color: var(--bg-color); font-weight: bold; font-size: 18px; }
+
+/* Ползунки */
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]:focus { outline: none; }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: rgba(61, 21, 52, 0.2); border-radius: 3px; }
+input[type=range]::-webkit-slider-thumb {
+  height: 22px; width: 22px; border-radius: 50%; background: var(--bg-color); /* Темный бегунок */
+  cursor: pointer; -webkit-appearance: none; margin-top: -8px;
+  box-shadow: 0 0 10px rgba(61, 21, 52, 0.4); transition: transform 0.1s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* Результаты */
+.calc-results { background: rgba(61, 21, 52, 0.08); border-radius: 16px; padding: 32px; text-align: center; }
+.result-item { margin-bottom: 24px; }
+.result-item:last-child { margin-bottom: 0; }
+.res-label { font-size: 14px; color: var(--bg-color); opacity: 0.8; margin-bottom: 8px; font-weight: 500; }
+.res-value { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: bold; color: var(--bg-color); }
+
+/* ============================================================
    АДАПТИВ
    ============================================================ */
 @media (max-width: 1000px) { .segmentation-switch { display: none; } }
@@ -240,9 +276,12 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   .hero-image-block { min-height: 300px; width: 100%; } 
   .hero-text-block { padding: 32px 0; }
   .glass-header { padding: 16px 24px; }
+  .calc-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 @media (max-width: 768px) {
   .ai-demo-grid { grid-template-columns: 1fr; } 
   .section { padding: 60px 16px; }
   .btn { padding: 12px 20px; font-size: 14px; }
+  .calc-results { padding: 24px; }
+  .res-value { font-size: 28px; }
 }
