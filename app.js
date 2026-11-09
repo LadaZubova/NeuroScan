@@ -1,11 +1,36 @@
 /* ============================================================
-   NeuroScan — клиентская логика
+   NeuroScan — Клиентская логика (Полная версия)
    ============================================================ */
 
 // Глобальная переменная для хранения последней загруженной картинки
 let globalUploadedFile = null;
 
-/* ---------- 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (С авто-запуском YOLO) ---------- */
+/* ---------- 1. СЕГМЕНТАЦИЯ ТРАФИКА ---------- */
+window.switchSegment = function(type) {
+  const btnState = document.getElementById('btn-state');
+  const btnPrivate = document.getElementById('btn-private');
+  const badge = document.getElementById('hero-badge');
+  const title = document.getElementById('hero-title');
+  const sub = document.getElementById('hero-sub');
+
+  if (type === 'state') {
+    btnState.classList.add('active');
+    btnPrivate.classList.remove('active');
+    
+    badge.textContent = "Для государственных учреждений";
+    title.innerHTML = 'Сократите очереди на КТ и рентген <span class="accent">на 40%</span>';
+    sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan» разгружает врачей, ускоряет отчетность и помогает выполнять планы по ОМС без потери качества.";
+  } else {
+    btnPrivate.classList.add('active');
+    btnState.classList.remove('active');
+    
+    badge.textContent = "Для частных медицинских центров";
+    title.innerHTML = 'Увеличьте маржинальность диагностики <span class="accent">на 35%</span>';
+    sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
+  }
+};
+
+/* ---------- 2. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК AI (С автозапуском YOLO) ---------- */
 window.switchTab = function (tab) {
   const btnTm = document.getElementById('btn-tm');
   const btnYolo = document.getElementById('btn-yolo');
@@ -23,9 +48,8 @@ window.switchTab = function (tab) {
     tabTm.style.display = 'none';
     tabYolo.style.display = 'block';
 
-    // 🔥 МАГИЯ АВТОЗАПУСКА: Если картинка уже была загружена, запускаем YOLO
+    // Если картинка уже была загружена в TM, автоматически запускаем YOLO
     if (globalUploadedFile) {
-      // Очищаем старое состояние YOLO
       const dropInner = document.getElementById('yoloDropInner');
       const placeholder = document.getElementById('yoloPlaceholder');
       const content = document.getElementById('yoloContent');
@@ -39,7 +63,6 @@ window.switchTab = function (tab) {
         preview.style.display = 'block'; 
       }
 
-      // Вызываем функцию отправки на сервер (она определена ниже)
       if (window.runYoloUpload) {
         window.runYoloUpload(globalUploadedFile);
       }
@@ -47,20 +70,42 @@ window.switchTab = function (tab) {
   }
 };
 
-/* ---------- 2. ОТПРАВКА ФОРМЫ ---------- */
-(function () {
-  const form = document.getElementById('leadForm');
-  const success = document.getElementById('formSuccess');
-  if (form && success) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      success.style.display = 'block';
-      form.reset();
-    });
+/* ---------- 3. ФОРМА ---------- */
+document.getElementById('leadForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('formSuccess').style.display = 'block';
+  this.reset();
+});
+
+/* ---------- 4. ПОЛЗУНОК ДО/ПОСЛЕ ---------- */
+(function() {
+  const wrapper = document.getElementById('baWrapper');
+  const after = document.getElementById('baAfter');
+  const handle = document.getElementById('baHandle');
+
+  if (!wrapper || !after || !handle) return;
+
+  let isDragging = false;
+
+  function moveSlider(x) {
+    const rect = wrapper.getBoundingClientRect();
+    let position = ((x - rect.left) / rect.width) * 100;
+    if (position < 0) position = 0;
+    if (position > 100) position = 100;
+    handle.style.left = `${position}%`;
+    after.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
   }
+
+  wrapper.addEventListener('mousedown', (e) => { isDragging = true; moveSlider(e.clientX); });
+  window.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(e.clientX); });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  wrapper.addEventListener('touchstart', (e) => { isDragging = true; moveSlider(e.touches[0].clientX); });
+  window.addEventListener('touchmove', (e) => { if (isDragging) moveSlider(e.touches[0].clientX); });
+  window.addEventListener('touchend', () => { isDragging = false; });
 })();
 
-/* ---------- 3. TEACHABLE MACHINE ---------- */
+/* ---------- 5. TEACHABLE MACHINE ---------- */
 (function () {
   const drop = document.getElementById('aiDrop');
   const file = document.getElementById('aiFile');
@@ -89,7 +134,6 @@ window.switchTab = function (tab) {
   file.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
   async function handleFile(f) {
-    // 🔥 СОХРАНЯЕМ ФАЙЛ ГЛОБАЛЬНО, ЧТОБЫ YOLO ЕГО УВИДЕЛ
     globalUploadedFile = f; 
 
     preview.src = URL.createObjectURL(f); 
@@ -124,7 +168,7 @@ window.switchTab = function (tab) {
   }
 })();
 
-/* ---------- 4. YOLO (Через Python-сервер) ---------- */
+/* ---------- 6. YOLO (Python Server) ---------- */
 (function() {
   const drop = document.getElementById('yoloDrop');
   const file = document.getElementById('yoloFile');
@@ -135,17 +179,17 @@ window.switchTab = function (tab) {
   const textRes = document.getElementById('yoloText');
   const loading = document.getElementById('yoloLoading');
   const timeEl = document.getElementById('yoloTime');
+  
   if (!drop || !file) return;
 
   drop.addEventListener('click', () => file.click());
   file.addEventListener('change', (e) => { 
     if (e.target.files[0]) {
-      globalUploadedFile = e.target.files[0]; // Сохраняем, если загрузили тут
+      globalUploadedFile = e.target.files[0];
       window.runYoloUpload(e.target.files[0]); 
     }
   });
 
-  // Экспортируем функцию наружу, чтобы switchTab мог её вызвать
   window.runYoloUpload = async function(imageFile) {
     inner.style.display = 'none';
     placeholder.style.display = 'none';
