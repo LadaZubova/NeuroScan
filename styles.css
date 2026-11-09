@@ -1,9 +1,8 @@
 /* ============================================================
-   NeuroScan — Стили (Палитра NYNA)
+   NeuroScan — Стили (Палитра NYNA + Универсальная анимация)
    ============================================================ */
 
 :root {
-  /* Цвета из палитры */
   --bg-color: #3D1534;       /* Midnight Violet */
   --card-bg: #3E4B8E;        /* French Blue */
   --card-border: rgba(166, 188, 201, 0.3); /* Powder Blue с прозрачностью */
@@ -12,8 +11,8 @@
   --text-muted: #A6BCC9;     /* Powder Blue */
   
   --accent: #F6E0B6;         /* Wheat */
-  --accent-hover: #E6D0A6;   /* Чуть более темный Wheat для ховера */
-  --text-on-accent: #3D1534; /* Темный текст для кнопок на Wheat */
+  --accent-hover: #E6D0A6;   
+  --text-on-accent: #3D1534; 
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,52 +29,79 @@ body {
 .text-center { text-align: center; }
 .section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
 
-/* КАРТОЧКИ */
+/* ============================================================
+   БАЗОВЫЕ КАРТОЧКИ И ИХ АНИМАЦИЯ
+   ============================================================ */
 .glass-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   padding: 32px;
-  transition: transform 0.3s ease;
-}
-.glass-card:hover {
-  transform: translateY(-2px);
+  position: relative; /* Важно для линии снизу */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* КНОПКИ */
+/* Универсальный ховер для всех карточек */
+.pain-card:hover, 
+.step:hover, 
+.trust-card:hover, 
+.econ-item:hover, 
+.case-card:hover, 
+.ai-drop:hover,
+.ai-result:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(246, 224, 182, 0.15); /* Золотистое свечение */
+}
+
+/* Универсальная золотистая линия при наведении */
+.pain-card::after, 
+.step::after, 
+.trust-card::after, 
+.econ-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0%; height: 4px;
+  background: var(--accent);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  transition: width 0.4s ease;
+}
+.pain-card:hover::after, 
+.step:hover::after, 
+.trust-card:hover::after, 
+.econ-item:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 14px 28px; font-size: 15px; font-weight: 600;
   text-decoration: none; border-radius: 8px;
   cursor: pointer; transition: all 0.2s ease; border: none; font-family: 'Inter', sans-serif;
 }
-.btn-primary { 
-  background: var(--accent); 
-  color: var(--text-on-accent); 
-}
-.btn-primary:hover { 
-  background: var(--accent-hover); 
-  transform: translateY(-1px); 
-}
-.btn-glass { 
-  background: transparent; 
-  color: var(--text-main); 
-  border: 1px solid var(--text-muted); 
-}
-.btn-glass:hover { 
-  background: rgba(166, 188, 201, 0.1); 
-  border-color: var(--text-main);
-}
+.btn-primary { background: var(--accent); color: var(--text-on-accent); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-glass { background: transparent; color: var(--text-main); border: 1px solid var(--text-muted); }
+.btn-glass:hover { background: rgba(166, 188, 201, 0.1); border-color: var(--text-main); }
 
-/* ТИПОГРАФИКА */
+/* ============================================================
+   ТИПОГРАФИКА
+   ============================================================ */
 h1, h2, h3, .section-title { font-family: 'Playfair Display', serif; font-weight: 500; letter-spacing: -0.02em; }
 h1 { font-size: clamp(32px, 4vw, 52px); line-height: 1.1; margin-bottom: 24px; }
 h1 .accent { color: var(--accent); font-style: italic; }
 .section-title { font-size: clamp(28px, 3vw, 40px); margin-bottom: 16px; text-align: center; color: var(--text-main); }
 .section-sub { color: var(--text-muted); font-size: 18px; text-align: center; margin-bottom: 48px; }
 
-/* HEADER */
+/* ============================================================
+   HEADER И СЕГМЕНТАЦИЯ
+   ============================================================ */
 .glass-header {
   position: sticky; top: 0; left: 0; width: 100%;
   display: flex; justify-content: space-between; align-items: center;
@@ -88,7 +114,6 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 15px; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text-main); }
 
-/* СЕГМЕНТАЦИЯ */
 .segmentation-switch {
   display: flex; background: rgba(0,0,0,0.2);
   border: 1px solid var(--card-border); border-radius: 50px; padding: 4px;
@@ -101,13 +126,14 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .seg-btn:hover { color: var(--text-main); }
 .seg-btn.active { background: var(--accent); color: var(--text-on-accent); font-weight: 600; }
 
-/* HERO */
+/* ============================================================
+   HERO (Первый экран)
+   ============================================================ */
 .hero { padding: 100px 24px 60px; display: flex; justify-content: center; }
 .hero-wrapper { display: flex; flex-direction: row; gap: 40px; max-width: 1200px; width: 100%; align-items: center; }
 .hero-text-block { flex: 1.1; display: flex; flex-direction: column; justify-content: center; padding: 40px; }
 .hero-image-block { flex: 0.9; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--card-border); min-height: 400px; }
-.hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; 
-}
+.hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 
 .hero-badge { display: inline-block; padding: 6px 12px; background: rgba(246, 224, 182, 0.1); border: 1px solid rgba(246, 224, 182, 0.3); border-radius: 50px; font-size: 13px; margin-bottom: 24px; color: var(--accent); align-self: flex-start; }
 .hero-sub { color: var(--text-muted); font-size: 18px; margin-bottom: 32px; }
@@ -120,19 +146,45 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .dot-red { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 8px #ef4444; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* СЕТКИ */
+/* ============================================================
+   СЕТКИ И КАРТОЧКИ ВНУТРИ СЕКЦИЙ
+   ============================================================ */
 .pains-grid, .steps, .trust-grid, .econ-table { display: grid; gap: 24px; }
 .pains-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .steps, .trust-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .econ-table { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 
-/* Карточки внутри секций */
 .pain-number { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--accent); opacity: 0.6; margin-bottom: 12px; font-weight: 600; }
 .pain-card h3, .step h3, .trust-card h3 { font-size: 20px; margin-bottom: 12px; font-family: 'Playfair Display', serif; color: var(--text-main); }
 .pain-card p, .step p, .trust-card p { color: var(--text-muted); font-size: 15px; }
 .pain-card .solution { color: var(--accent); font-size: 14px; font-weight: 500; margin-top: 16px; display: block; }
-.step { position: relative; padding-top: 32px; }
-.step-num { position: absolute; top: -16px; left: 32px; width: 40px; height: 40px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text-on-accent); font-weight: bold;}
+
+/* 🔥 ИСПРАВЛЕННЫЕ ШАГИ (Цифры больше не обрезаются) */
+.step { 
+  position: relative; 
+  padding-top: 40px; 
+  margin-top: 20px; /* Отступ, чтобы цифре было куда вылезать */
+  overflow: visible; /* Разрешаем выход за границы */
+}
+.step-num { 
+  position: absolute; 
+  top: -24px; 
+  left: 32px; 
+  width: 48px; 
+  height: 48px; 
+  background: var(--accent); 
+  border-radius: 50%; /* Круглая форма */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: 'Playfair Display', serif; 
+  font-size: 22px; 
+  color: var(--text-on-accent); 
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
 .trust-card .stat { font-size: 36px; font-weight: bold; color: var(--accent); margin-bottom: 8px; font-family: 'Playfair Display', serif; }
 .econ-item { text-align: center; }
 .econ-item .value { font-size: 32px; font-weight: bold; color: var(--accent); margin-bottom: 8px; font-family: 'Playfair Display', serif;}
@@ -146,7 +198,9 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .case-author .name { font-weight: 600; color: var(--text-main); }
 .case-author .role { font-size: 14px; color: var(--text-muted); }
 
-/* ПОЛЗУНОК ДО/ПОСЛЕ */
+/* ============================================================
+   ПОЛЗУНОК ДО/ПОСЛЕ
+   ============================================================ */
 .ba-section { padding: 80px 24px; background: var(--bg-color); }
 .ba-wrapper {
   position: relative; max-width: 550px; margin: 0 auto;
@@ -160,7 +214,9 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .ba-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--accent); color: var(--text-on-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.5); font-weight: bold;}
 .ba-labels { display: flex; justify-content: space-between; max-width: 550px; margin: 16px auto 0; font-size: 14px; color: var(--text-muted); font-weight: 500; }
 
-/* AI DEMO SECTION */
+/* ============================================================
+   AI DEMO SECTION
+   ============================================================ */
 .ai-demo-section { position: relative; padding: 80px 24px; max-width: 100%; background: var(--bg-color); }
 .ai-demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto; }
 .ai-drop { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; text-align: center; border: 2px dashed var(--text-muted); transition: all 0.2s; padding: 0; overflow: hidden; position: relative; background: var(--card-bg); border-radius: 16px; }
@@ -180,7 +236,9 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .ai-meta { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
 .ai-loading { text-align: center; color: var(--accent); font-weight: 500; }
 
-/* ФОРМА */
+/* ============================================================
+   ФОРМА И ФУТЕР
+   ============================================================ */
 .form-section { padding-bottom: 100px; }
 .form-wrap { max-width: 500px; margin: 0 auto; background: var(--card-bg); }
 .form-group { margin-bottom: 16px; }
@@ -191,7 +249,9 @@ h1 .accent { color: var(--accent); font-style: italic; }
 
 footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: var(--bg-color); }
 
-/* АДАПТИВ */
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
 @media (max-width: 1000px) { .segmentation-switch { display: none; } }
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -204,44 +264,4 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   .ai-demo-grid { grid-template-columns: 1fr; } 
   .section { padding: 60px 16px; }
   .btn { padding: 12px 20px; font-size: 14px; }
-}
-/* --- ИНТЕРАКТИВНЫЕ ШАГИ --- */
-.step {
-  position: relative;
-  padding-top: 32px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-/* Эффект при наведении на шаг */
-.step:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  box-shadow: 0 10px 30px rgba(246, 224, 182, 0.1);
-}
-
-/* Красивая линия, которая появляется при наведении */
-.step-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 4px;
-  background: var(--accent);
-  transition: width 0.4s ease;
-}
-
-.step:hover .step-line {
-  width: 100%;
-}
-
-/* Легкая пульсация номера шага */
-@keyframes pulse-number {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(246, 224, 182, 0.4); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(246, 224, 182, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(246, 224, 182, 0); }
-}
-
-.step:hover .step-num {
-  animation: pulse-number 1.5s infinite;
 }
