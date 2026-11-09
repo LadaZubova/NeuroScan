@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=8">
+  <!-- Версия стилей обновлена до 15, чтобы сбросить кэш браузера -->
+  <link rel="stylesheet" href="./styles.css?v=15">
 </head>
 <body>
 
@@ -180,7 +181,7 @@
       </div>
     </div>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР (вставь этот кусок) -->
+    <!-- ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР -->
     <div class="glass-card calculator-wrap">
       <div class="calc-header">
         <h3>Калькулятор окупаемости</h3>
@@ -313,18 +314,38 @@
   </div>
 </section>
 
-<!-- FORM -->
+<!-- FORM (ИСПРАВЛЕНО ПО ТЗ) -->
 <section class="section form-section" id="demo">
   <div class="container">
     <div class="glass-card form-wrap">
-      <h2 class="section-title" style="text-align: center; margin-bottom: 24px;">Получить демо-доступ на 14 дней</h2>
+      <h2 class="section-title" style="text-align: center; margin-bottom: 24px; font-size: 32px;">
+        Закажите персональную онлайн-демонстрацию для вашей клиники
+      </h2>
+      
       <form id="leadForm">
-        <div class="form-group"><input type="text" placeholder="Имя" required></div>
-        <div class="form-group"><input type="tel" placeholder="Телефон" required></div>
-        <div class="form-group"><input type="text" placeholder="Название клиники / Должность" required></div>
-        <div class="form-group"><input type="email" placeholder="Корпоративный Email" required></div>
-        <button type="submit" class="btn btn-pill btn-primary" style="width: 100%;">Отправить заявку</button>
-        <div class="form-success" id="formSuccess" style="display:none; margin-top: 20px; color: var(--accent); text-align: center;">✓ Спасибо! Мы свяжемся с вами.</div>
+        <div class="form-group">
+          <input type="text" id="name" placeholder="Имя" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="tel" id="phone" placeholder="Телефон" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" id="clinic" placeholder="Название клиники / Должность" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="email" id="email" placeholder="Корпоративный Email" required>
+        </div>
+        
+        <button type="submit" class="btn btn-pill btn-primary" style="width: 100%;">
+          Посмотреть систему в действии
+        </button>
+        
+        <div class="form-success" id="formSuccess" style="display:none; margin-top: 20px; color: var(--accent); text-align: center;">
+          ✓ Спасибо! Мы свяжемся с вами.
+        </div>
       </form>
     </div>
   </div>
