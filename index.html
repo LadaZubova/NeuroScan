@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <!-- Версия стилей обновлена до 7 для сброса кэша -->
+  <link rel="stylesheet" href="./styles.css?v=7">
 </head>
 <body>
 
@@ -18,6 +19,7 @@
   <div class="nav-links">
     <a href="#how">Как работает</a>
     <a href="#trust">Безопасность</a>
+    <a href="#economics">Экономика</a>
     <a href="#case">Кейс</a>
     <a href="#ai-demo">AI-демо</a>
   </div>
@@ -36,14 +38,19 @@
   <div class="hero-wrapper">
     <div class="hero-text-block">
       <span class="hero-badge" id="hero-badge">Зарегистрированное медицинское изделие</span>
+      
       <h1 id="hero-title">Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»</h1>
+      
       <p class="hero-sub" id="hero-sub">Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.</p>
+      
       <div class="hero-cta">
         <a href="#demo" class="btn btn-pill btn-primary">Получить демо-доступ на 14 дней</a>
         <a href="#ai-demo" class="btn btn-pill btn-glass">Попробовать AI-демо</a>
       </div>
-      <p class="hero-micro" style="margin-top: 12px;"><span style="color: #7dd3fc;">* Требуется подтверждение статуса клиники</span></p>
+      
+      <p class="hero-micro" style="margin-top: 12px;"><span style="color: var(--accent);">* Требуется подтверждение статуса клиники</span></p>
     </div>
+    
     <div class="hero-image-block">
       <img src="./images/xray.jpg" alt="Рентген" class="hero-img">
       <div class="scanner-line"></div>
@@ -59,31 +66,24 @@
     <p class="section-sub">Врачи перегружены рутиной, а пациенты ждут результаты днями.</p>
     
     <div class="pains-grid">
-      <!-- Боль 1 -->
       <div class="glass-card pain-card">
         <div class="pain-number">01</div>
         <h3>Врачи перегружены</h3>
         <p>До 100 снимков в смену и постоянная рутина.</p>
         <div class="solution">✓ ИИ берет первичный скрининг на себя</div>
       </div>
-      
-      <!-- Боль 2 -->
       <div class="glass-card pain-card">
         <div class="pain-number">02</div>
         <h3>«Замыливается» глаз</h3>
         <p>Из-за усталости растет риск пропустить мелкую патологию.</p>
         <div class="solution">✓ ИИ подсвечивает зоны риска (второе мнение)</div>
       </div>
-      
-      <!-- Боль 3 -->
       <div class="glass-card pain-card">
         <div class="pain-number">03</div>
         <h3>Пациенты долго ждут</h3>
         <p>Расшифровка снимков занимает дни вместо минут.</p>
         <div class="solution">✓ Анализ занимает всего 15 секунд</div>
       </div>
-      
-      <!-- Боль 4 -->
       <div class="glass-card pain-card">
         <div class="pain-number">04</div>
         <h3>Клиника теряет деньги</h3>
@@ -92,7 +92,6 @@
       </div>
     </div>
 
-    <!-- Общее решение из ТЗ -->
     <div class="glass-card solution-banner" style="margin-top: 32px; text-align: center; border-left: 4px solid var(--accent);">
       <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 12px; color: var(--text-main);">
         Решение: «AI-Радиолог: Второе мнение для региональной медицины»
@@ -101,7 +100,6 @@
         Нейросеть «NeuroScan» берет на себя первичный скрининг за 15 секунд. Врач получает снимок с уже размеченными триггерными зонами и подсказками для постановки точного диагноза.
       </p>
     </div>
-    
   </div>
 </section>
 
@@ -112,23 +110,18 @@
     <p class="section-sub">Технологический процесс полностью встроен в привычный рабочий процесс врача-рентгенолога.</p>
     
     <div class="steps">
-      <!-- Шаг 1 -->
       <div class="glass-card step">
         <div class="step-num">1</div>
         <h3>Загрузка</h3>
         <p>Снимок из локальной PACS-системы клиники автоматически и зашифровано отправляется в NeuroScan.</p>
         <div class="step-line"></div>
       </div>
-      
-      <!-- Шаг 2 -->
       <div class="glass-card step">
         <div class="step-num">2</div>
         <h3>Анализ</h3>
         <p>Нейросеть обрабатывает кадр, сверяясь с базой из 5 000 000+ верифицированных клинических случаев.</p>
         <div class="step-line"></div>
       </div>
-      
-      <!-- Шаг 3 -->
       <div class="glass-card step">
         <div class="step-num">3</div>
         <h3>Результат</h3>
@@ -166,11 +159,25 @@
 <section class="section economics" id="economics">
   <div class="container">
     <h2 class="section-title">Цифры для главного врача</h2>
+    <p class="section-sub">Язык цифр: понятная экономика и измеримый эффект от внедрения.</p>
+    
     <div class="econ-table">
-      <div class="glass-card econ-item"><div class="value">+35%</div><div class="label">Пропускная способность</div></div>
-      <div class="glass-card econ-item"><div class="value">2.5×</div><div class="label">Снижение риска ошибки</div></div>
-      <div class="glass-card econ-item"><div class="value">3 мес.</div><div class="label">Срок окупаемости</div></div>
-      <div class="glass-card econ-item"><div class="value">−40%</div><div class="label">Время на описание</div></div>
+      <div class="glass-card econ-item">
+        <div class="value">+35%</div>
+        <div class="label">Пропускная способность отделения</div>
+      </div>
+      <div class="glass-card econ-item">
+        <div class="value">в 2.5 раза</div>
+        <div class="label">Снижение риска врачебной ошибки</div>
+      </div>
+      <div class="glass-card econ-item">
+        <div class="value">от 3 мес.</div>
+        <div class="label">Срок окупаемости внедрения системы в клинику</div>
+      </div>
+      <div class="glass-card econ-item">
+        <div class="value">−40%</div>
+        <div class="label">Время на описание снимков КТ и рентгена</div>
+      </div>
     </div>
   </div>
 </section>
@@ -197,7 +204,8 @@
   <div class="container">
     <h2 class="section-title">Увидьте разницу за 5 секунд</h2>
     <p class="section-sub">Подвиньте ползунок: слева — обычный снимок, справа — тот же снимок с разметкой нейросети.</p>
-    <div class="ba-wrapper glass-card" id="baWrapper">
+    
+    <div class="ba-wrapper" id="baWrapper">
       <img src="./images/xray_before.jpg" alt="До" class="ba-img">
       <div class="ba-after" id="baAfter">
         <img src="./images/xray_after.jpg" alt="После" class="ba-img">
@@ -206,9 +214,10 @@
         <div class="ba-circle">⇆</div>
       </div>
     </div>
+    
     <div class="ba-labels">
       <span>До: обычный снимок</span>
-      <span style="color: #0ea5e9;">После: разметка YOLO</span>
+      <span style="color: var(--accent);">После: разметка YOLO</span>
     </div>
   </div>
 </section>
@@ -218,16 +227,19 @@
   <div class="container" style="position: relative; z-index: 2;">
     <h2 class="section-title">Живое AI-демо</h2>
     <p class="section-sub">Выберите тип анализа и загрузите снимок.</p>
+    
     <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 32px;">
       <button class="btn btn-pill btn-primary" id="btn-tm" onclick="switchTab('tm')">Teachable Machine</button>
       <button class="btn btn-pill btn-glass" id="btn-yolo" onclick="switchTab('yolo')">YOLO (Python)</button>
     </div>
+
     <!-- Вкладка 1: TM -->
     <div id="tab-tm">
       <div class="ai-demo-grid">
         <div class="glass-card ai-drop" id="aiDrop">
           <input type="file" id="aiFile" accept="image/*" hidden>
           <div class="ai-drop-inner" id="aiDropInner">
+            <div class="ai-drop-icon">⬆</div>
             <div class="ai-drop-title">Загрузите снимок</div>
             <div class="ai-drop-sub">TM выдаст вероятность</div>
           </div>
@@ -244,12 +256,14 @@
         </div>
       </div>
     </div>
+
     <!-- Вкладка 2: YOLO -->
     <div id="tab-yolo" style="display: none;">
       <div class="ai-demo-grid">
         <div class="glass-card ai-drop" id="yoloDrop">
           <input type="file" id="yoloFile" accept="image/*" hidden>
           <div class="ai-drop-inner" id="yoloDropInner">
+            <div class="ai-drop-icon">⬆</div>
             <div class="ai-drop-title">Загрузите снимок</div>
             <div class="ai-drop-sub">YOLO выделит рамки</div>
           </div>
@@ -280,14 +294,14 @@
         <div class="form-group"><input type="text" placeholder="Название клиники / Должность" required></div>
         <div class="form-group"><input type="email" placeholder="Корпоративный Email" required></div>
         <button type="submit" class="btn btn-pill btn-primary" style="width: 100%;">Отправить заявку</button>
-        <div class="form-success" id="formSuccess" style="display:none; margin-top: 20px; color: #4ade80; text-align: center;">✓ Спасибо! Мы свяжемся с вами.</div>
+        <div class="form-success" id="formSuccess" style="display:none; margin-top: 20px; color: var(--accent); text-align: center;">✓ Спасибо! Мы свяжемся с вами.</div>
       </form>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="container" style="text-align: center; padding: 30px; color: #94a3b8; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.1);">
+  <div class="container" style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 14px; border-top: 1px solid var(--card-border);">
     <span>© 2026 NeuroScan. Все права защищены.</span><br>
     <span>Регистрационное удостоверение Росздравнадзора № ФСЗ 2026/12345</span>
   </div>
