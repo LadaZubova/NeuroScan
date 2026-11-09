@@ -2,7 +2,6 @@
    NeuroScan — Клиентская логика (Полная версия)
    ============================================================ */
 
-// Глобальная переменная для хранения последней загруженной картинки
 let globalUploadedFile = null;
 
 /* ---------- 1. СЕГМЕНТАЦИЯ ТРАФИКА ---------- */
@@ -16,21 +15,19 @@ window.switchSegment = function(type) {
   if (type === 'state') {
     btnState.classList.add('active');
     btnPrivate.classList.remove('active');
-    
     badge.textContent = "Для государственных учреждений";
     title.innerHTML = 'Сократите очереди на КТ и рентген <span class="accent">на 40%</span>';
     sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan» разгружает врачей, ускоряет отчетность и помогает выполнять планы по ОМС без потери качества.";
   } else {
     btnPrivate.classList.add('active');
     btnState.classList.remove('active');
-    
     badge.textContent = "Для частных медицинских центров";
     title.innerHTML = 'Увеличьте маржинальность диагностики <span class="accent">на 35%</span>';
     sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
   }
 };
 
-/* ---------- 2. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК AI (С автозапуском YOLO) ---------- */
+/* ---------- 2. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК AI ---------- */
 window.switchTab = function (tab) {
   const btnTm = document.getElementById('btn-tm');
   const btnYolo = document.getElementById('btn-yolo');
@@ -48,7 +45,6 @@ window.switchTab = function (tab) {
     tabTm.style.display = 'none';
     tabYolo.style.display = 'block';
 
-    // Если картинка уже была загружена в TM, автоматически запускаем YOLO
     if (globalUploadedFile) {
       const dropInner = document.getElementById('yoloDropInner');
       const placeholder = document.getElementById('yoloPlaceholder');
@@ -92,9 +88,17 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     let position = ((x - rect.left) / rect.width) * 100;
     if (position < 0) position = 0;
     if (position > 100) position = 100;
+    
+    // Двигаем ползунок
     handle.style.left = `${position}%`;
-    after.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+    
+    // Обрезаем левую часть картинки "После", чтобы открыть картинку "До"
+    after.style.clipPath = `inset(0 0 0 ${position}%)`;
   }
+
+  // Начальное положение
+  handle.style.left = '50%';
+  after.style.clipPath = 'inset(0 0 0 50%)';
 
   wrapper.addEventListener('mousedown', (e) => { isDragging = true; moveSlider(e.clientX); });
   window.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(e.clientX); });
@@ -125,7 +129,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   async function loadModel() {
     try {
       model = await tmImage.load("./model/model.json", "./model/metadata.json");
-      console.log("Модель TM загружена!");
     } catch (e) { console.error("TM Error", e); }
   }
   loadModel();
