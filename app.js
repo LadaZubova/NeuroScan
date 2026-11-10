@@ -101,7 +101,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        // 🔥 НОВЫЙ АДРЕС ТВОЕГО СЕРВЕРА НА RENDER 🔥
         const response = await fetch('https://neuroscan-keis.onrender.com/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
