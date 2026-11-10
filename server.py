@@ -4,6 +4,7 @@ from ultralytics import YOLO
 import cv2
 import base64
 import numpy as np
+import os
 
 app = Flask(__name__)
 CORS(app) # Разрешаем сайту отправлять запросы
@@ -25,7 +26,7 @@ def predict():
         img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         results = model(img) # YOLO делает предсказание
-        res_img = results[0].plot() # Рисуем рамки (метод plot сам накладывает их на фото)
+        res_img = results[0].plot() # Рисуем рамки
         
         # Кодируем обратно в base64 для сайта
         _, buffer = cv2.imencode('.jpg', res_img)
@@ -40,5 +41,5 @@ def predict():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
-    # Запускаем сервер на 5000 порту
-    app.run(host='127.0.0.1', port=5000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
