@@ -10,7 +10,7 @@ CORS(app) # Разрешаем сайту отправлять запросы
 
 # Загружаем обученную модель
 print("Загрузка модели YOLO...")
-model = YOLO(r'D:/олимпиады/ПрофГоризонт 2026/IT кейс/NeuroScan-YOLO/backend/best.pt')
+model = YOLO('best.pt')
 print("Модель успешно загружена!")
 
 @app.route('/predict', methods=['POST'])
