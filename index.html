@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <!-- Версия стилей обновлена до 15, чтобы сбросить кэш браузера -->
   <link rel="stylesheet" href="./styles.css?v=15">
 </head>
 <body>
@@ -24,7 +23,6 @@
     <a href="#ai-demo">AI-демо</a>
   </div>
   
-  <!-- СЕГМЕНТАЦИЯ ТРАФИКА -->
   <div class="segmentation-switch">
     <button class="seg-btn active" id="btn-state" onclick="switchSegment('state')">Гос. больницы</button>
     <button class="seg-btn" id="btn-private" onclick="switchSegment('private')">Частные центры</button>
@@ -38,16 +36,13 @@
   <div class="hero-wrapper">
     <div class="hero-text-block">
       <span class="hero-badge" id="hero-badge">Зарегистрированное медицинское изделие</span>
-      
       <h1 id="hero-title">Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»</h1>
-      
       <p class="hero-sub" id="hero-sub">Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.</p>
       
       <div class="hero-cta">
         <a href="#demo" class="btn btn-pill btn-primary">Получить демо-доступ на 14 дней</a>
         <a href="#ai-demo" class="btn btn-pill btn-glass">Попробовать AI-демо</a>
       </div>
-      
       <p class="hero-micro" style="margin-top: 12px;"><span style="color: var(--accent);">* Требуется подтверждение статуса клиники</span></p>
     </div>
     
@@ -114,13 +109,11 @@
         <div class="step-num">1</div>
         <h3>Загрузка</h3>
         <p>Снимок из локальной PACS-системы клиники автоматически и зашифровано отправляется в NeuroScan.</p>
-        <div class="step-line"></div>
       </div>
       <div class="glass-card step">
         <div class="step-num">2</div>
         <h3>Анализ</h3>
         <p>Нейросеть обрабатывает кадр, сверяясь с базой из 5 000 000+ верифицированных клинических случаев.</p>
-        <div class="step-line"></div>
       </div>
       <div class="glass-card step">
         <div class="step-num">3</div>
@@ -161,7 +154,6 @@
     <h2 class="section-title">Цифры для главного врача</h2>
     <p class="section-sub">Язык цифр: понятная экономика и измеримый эффект от внедрения.</p>
     
-    <!-- Статичные цифры -->
     <div class="econ-table" style="margin-bottom: 40px;">
       <div class="glass-card econ-item">
         <div class="value">+35%</div>
@@ -181,7 +173,6 @@
       </div>
     </div>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР -->
     <div class="glass-card calculator-wrap">
       <div class="calc-header">
         <h3>Калькулятор окупаемости</h3>
@@ -302,11 +293,29 @@
         </div>
         <div class="glass-card ai-result" id="yoloResult">
           <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат YOLO</div>
+          
           <div id="yoloContent" style="display:none;">
             <div class="ai-status">✓ YOLO завершил анализ</div>
             <div id="yoloText" style="font-size: 18px; margin-bottom: 20px;"></div>
-            <div class="ai-meta">Модель: YOLOv8 (Python) · Время: <span id="yoloTime">—</span></div>
+            
+            <!-- БЛОК ПРОТОКОЛА С КАРТИНКОЙ И КНОПКОЙ СКАЧИВАНИЯ -->
+            <div id="yoloProtocol" style="display:none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+              <h4 style="color: var(--accent); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Черновик заключения:</h4>
+              
+              <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
+                <!-- Сюда вставится картинка с рамками YOLO -->
+                <img id="yoloProtocolImg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Снимок YOLO">
+                <p id="yoloProtocolContent" style="font-size: 14px; color: var(--text-main); line-height: 1.5; flex: 1;"></p>
+              </div>
+              
+              <button id="downloadProtocolBtn" class="btn btn-pill btn-primary" style="width: 100%; font-size: 14px; padding: 10px;">
+                📄 Скачать протокол (PDF)
+              </button>
+            </div>
+
+            <div class="ai-meta" style="margin-top: 20px;">Модель: YOLOv8 (Python) · Время: <span id="yoloTime">—</span></div>
           </div>
+          
           <div class="ai-loading" id="yoloLoading" style="display:none;">Запрос к серверу...</div>
         </div>
       </div>
@@ -314,7 +323,7 @@
   </div>
 </section>
 
-<!-- FORM (ИСПРАВЛЕНО ПО ТЗ) -->
+<!-- FORM -->
 <section class="section form-section" id="demo">
   <div class="container">
     <div class="glass-card form-wrap">
@@ -323,21 +332,10 @@
       </h2>
       
       <form id="leadForm">
-        <div class="form-group">
-          <input type="text" id="name" placeholder="Имя" required>
-        </div>
-        
-        <div class="form-group">
-          <input type="tel" id="phone" placeholder="Телефон" required>
-        </div>
-        
-        <div class="form-group">
-          <input type="text" id="clinic" placeholder="Название клиники / Должность" required>
-        </div>
-        
-        <div class="form-group">
-          <input type="email" id="email" placeholder="Корпоративный Email" required>
-        </div>
+        <div class="form-group"><input type="text" id="name" placeholder="Имя" required></div>
+        <div class="form-group"><input type="tel" id="phone" placeholder="Телефон" required></div>
+        <div class="form-group"><input type="text" id="clinic" placeholder="Название клиники / Должность" required></div>
+        <div class="form-group"><input type="email" id="email" placeholder="Корпоративный Email" required></div>
         
         <button type="submit" class="btn btn-pill btn-primary" style="width: 100%;">
           Посмотреть систему в действии
@@ -353,8 +351,6 @@
 
 <footer>
   <div class="container footer-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 40px;">
-    
-    <!-- Колонка 1: Навигация -->
     <div class="footer-col">
       <h4>Навигация</h4>
       <a href="#how">Как это работает</a>
@@ -362,32 +358,18 @@
       <a href="#economics">Экономика</a>
       <a href="#ai-demo">Живое AI-демо</a>
     </div>
-
-    <!-- Колонка 2: Контакты -->
     <div class="footer-col">
       <h4>Связаться с нами</h4>
-      <a href="tel:+74951234567" class="contact-link" style="font-size: 16px; margin-bottom: 12px;">
-        +7 (495) 123-45-67
-      </a>
-      <a href="mailto:hello@neuroscan.ai" class="contact-link" style="font-size: 16px;">
-        hello@neuroscan.ai
-      </a>
+      <a href="tel:+74951234567" class="contact-link" style="font-size: 16px; margin-bottom: 12px;">+7 (495) 123-45-67</a>
+      <a href="mailto:hello@neuroscan.ai" class="contact-link" style="font-size: 16px;">hello@neuroscan.ai</a>
     </div>
-
-    <!-- Колонка 3: Реквизиты -->
     <div class="footer-col">
       <h4>Реквизиты</h4>
-      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 8px;">
-        ООО «НейроСкан»
-      </p>
-      <p style="color: var(--text-muted); font-size: 14px;">
-        г. Москва, Пресненская наб., 12
-      </p>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 8px;">ООО «НейроСкан»</p>
+      <p style="color: var(--text-muted); font-size: 14px;">г. Москва, Пресненская наб., 12</p>
     </div>
-
   </div>
 
-  <!-- Нижняя полоса с копирайтом -->
   <div class="footer-bottom">
     <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; align-items: center;">
       <span>© 2026 NeuroScan. Все права защищены.</span>
@@ -399,6 +381,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<!-- Библиотека для создания PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
