@@ -258,7 +258,15 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
+            // ⚠️ ДОБАВЛЯЕМ ВАЖНЫЙ ДИСКЛЕЙМЕР
             doc.setFontSize(10);
+            doc.setTextColor(200, 0, 0); // Красный цвет для важности
+            const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
+            const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
+            doc.text(splitDisclaimer, 20, 220);
+            
+            // Подвал (возвращаем черный цвет)
+            doc.setTextColor(0, 0, 0);
             doc.text("Подпись врача: _______________________", 20, 260);
             doc.text("Система NeuroScan. РУ Росздравнадзора № ФСЗ 2026/12345", 20, 280);
             
