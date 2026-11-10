@@ -88,14 +88,10 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     if (position < 0) position = 0;
     if (position > 100) position = 100;
     
-    // Двигаем ползунок
     handle.style.left = `${position}%`;
-    
-    // Обрезаем левую часть картинки "После", чтобы открыть картинку "До"
     after.style.clipPath = `inset(0 0 0 ${position}%)`;
   }
 
-  // Начальное положение
   handle.style.left = '50%';
   after.style.clipPath = 'inset(0 0 0 50%)';
 
@@ -170,7 +166,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   }
 })();
 
-/* ---------- 6. YOLO (Python Server) ---------- */
+/* ---------- 6. YOLO (Python Server) + PDF ПРОТОКОЛ ---------- */
 (function() {
   const drop = document.getElementById('yoloDrop');
   const file = document.getElementById('yoloFile');
@@ -222,6 +218,54 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           preview.style.display = 'block';
           textRes.innerHTML = `<span style="color:#ef4444; font-weight:bold;">YOLO нашла зон: ${data.count}</span>`;
           
+          // --- БЛОК ПРОТОКОЛА ---
+          const protocolBlock = document.getElementById('yoloProtocol');
+          const protocolContent = document.getElementById('yoloProtocolContent');
+          const protocolImg = document.getElementById('yoloProtocolImg');
+          
+          protocolImg.src = data.image; // Картинка с рамками YOLO
+          
+          if (data.count > 0) {
+            protocolContent.textContent = "В ходе автоматического скрининга обнаружены зоны патологических изменений. Выявленные очаги требуют верификации врачом-рентгенологом. Заключение: Признаки пневмонии.";
+          } else {
+            protocolContent.textContent = "Зон патологических изменений не обнаружено. Показатели в пределах нормы. Заключение: Патологии не выявлено.";
+          }
+          
+          protocolBlock.style.display = 'block';
+
+          // --- ЛОГИКА СКАЧИВАНИЯ PDF ---
+          document.getElementById('downloadProtocolBtn').onclick = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.text("NeuroScan — Протокол AI-анализа", 20, 20);
+            
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
+            
+            // Вставляем картинку с рамками YOLO
+            doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
+            
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("Результат анализа:", 20, 175);
+            
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            
+            const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
+            doc.text(splitText, 20, 185);
+            
+            doc.setFontSize(10);
+            doc.text("Подпись врача: _______________________", 20, 260);
+            doc.text("Система NeuroScan. РУ Росздравнадзора № ФСЗ 2026/12345", 20, 280);
+            
+            doc.save("NeuroScan_Protocol.pdf");
+          };
+          
           timeEl.textContent = Math.round(performance.now() - t0) + ' мс';
           loading.style.display = 'none';
           content.style.display = 'block';
@@ -235,13 +279,11 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     };
   };
 })();
-/* ============================================================
-   ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР ОКУПАЕМОСТИ
-   ============================================================ */
+
+/* ---------- 7. КАЛЬКУЛЯТОР ОКУПАЕМОСТИ ---------- */
 (function() {
   const scansInput = document.getElementById('calc-scans');
   const priceInput = document.getElementById('calc-price');
-  
   if (!scansInput || !priceInput) return;
 
   const scansVal = document.getElementById('calc-scans-val');
@@ -249,7 +291,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   const revenueOut = document.getElementById('calc-revenue');
   const timeOut = document.getElementById('calc-time');
 
-  // Функция форматирования чисел с пробелами (например: 1 500 000)
   function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
@@ -258,24 +299,18 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     const scans = parseInt(scansInput.value);
     const price = parseInt(priceInput.value);
 
-    // Обновляем значения ползунков
     scansVal.textContent = scans;
     priceVal.textContent = price;
 
-    // Расчет доп. выручки: (Кол-во снимков * Цена) * 35%
     const currentRevenue = scans * price;
     const extraRevenue = Math.round(currentRevenue * 0.35);
     revenueOut.textContent = formatNumber(extraRevenue) + ' ₽';
 
-    // Расчет сэкономленного времени: (scans * 10 минут) / 60
     const hoursSaved = Math.round((scans * 10) / 60);
     timeOut.textContent = formatNumber(hoursSaved) + ' часов';
   }
 
-  // Слушаем изменения ползунков
   scansInput.addEventListener('input', updateCalculator);
   priceInput.addEventListener('input', updateCalculator);
-
-  // Запускаем при загрузке страницы
   updateCalculator();
 })();
