@@ -233,38 +233,50 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           protocolBlock.style.display = 'block';
 
-          // --- ЛОГИКА СКАЧИВАНИЯ PDF (С ПОДДЕРЖКОЙ РУССКОГО ЯЗЫКА) ---
+                    // --- ЛОГИКА СКАЧИВАНИЯ PDF (ОФИЦИАЛЬНЫЙ ШРИФТ) ---
           document.getElementById('downloadProtocolBtn').onclick = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
+            // ⚠️ ВСТРАИВАЕМ ОФИЦИАЛЬНЫЙ ШРИФТ PT SERIF (С ПОДДЕРЖКОЙ РУССКОГО)
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "Roboto", "normal");
+            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", "Roboto", "bold");
             doc.setFont("Roboto");
 
+            // Заголовок
             doc.setFontSize(22);
+            doc.setFont("Roboto", "bold");
             doc.text("NeuroScan — Протокол AI-анализа", 20, 20);
             
+            // Дата
             doc.setFontSize(10);
+            doc.setFont("Roboto", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
-            // Вставляем картинку с рамками YOLO
+            // Картинка с рамками YOLO
             doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
             
+            // Результат
             doc.setFontSize(14);
+            doc.setFont("Roboto", "bold");
             doc.text("Результат анализа:", 20, 175);
             
             doc.setFontSize(12);
+            doc.setFont("Roboto", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
+            // ⚠️ ВАЖНЫЙ ДИСКЛЕЙМЕР (КРАСНЫЙ)
             doc.setFontSize(10);
-            doc.setTextColor(200, 0, 0); // Красный цвет для важности
+            doc.setFont("Roboto", "bold"); // Жирный для акцента
+            doc.setTextColor(200, 0, 0); 
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
             doc.text(splitDisclaimer, 20, 220);
             
-            // Подвал (возвращаем черный цвет)
+            // Подвал (черный, обычный)
             doc.setTextColor(0, 0, 0);
+            doc.setFont("Roboto", "normal");
             doc.text("Подпись врача: _______________________", 20, 260);
             doc.text("Система NeuroScan. РУ Росздравнадзора № ФСЗ 2026/12345", 20, 280);
             
