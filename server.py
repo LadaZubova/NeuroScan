@@ -7,7 +7,8 @@ import numpy as np
 import os
 
 app = Flask(__name__)
-CORS(app) # Разрешаем сайту отправлять запросы
+
+CORS(app, resources={r"/predict": {"origins": "https://ladazoubova.github.io"}})
 
 # Загружаем обученную модель
 print("Загрузка модели YOLO...")
