@@ -233,29 +233,28 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           protocolBlock.style.display = 'block';
 
-          // --- ЛОГИКА СКАЧИВАНИЯ PDF ---
+          // --- ЛОГИКА СКАЧИВАНИЯ PDF (С ПОДДЕРЖКОЙ РУССКОГО ЯЗЫКА) ---
           document.getElementById('downloadProtocolBtn').onclick = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            doc.setFont("helvetica", "bold");
+            // ⚠️ ВСТРАИВАЕМ РУССКИЙ ШРИФТ (Roboto)
+            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "Roboto", "normal");
+            doc.setFont("Roboto");
+
             doc.setFontSize(22);
             doc.text("NeuroScan — Протокол AI-анализа", 20, 20);
             
             doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
             // Вставляем картинку с рамками YOLO
             doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
             
             doc.setFontSize(14);
-            doc.setFont("helvetica", "bold");
             doc.text("Результат анализа:", 20, 175);
             
             doc.setFontSize(12);
-            doc.setFont("helvetica", "normal");
-            
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
