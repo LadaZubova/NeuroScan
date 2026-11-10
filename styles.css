@@ -288,4 +288,65 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   .btn { padding: 12px 20px; font-size: 14px; }
   .calc-results { padding: 24px; }
   .res-value { font-size: 28px; }
+   
+   /* ============================================================
+   ФУТЕР
+   ============================================================ */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 40px;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+.footer-col h4 {
+  color: var(--text-main);
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-col a {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 12px;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--accent);
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px !important;
+  font-size: 15px !important;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--card-border);
+  padding: 24px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Адаптив для футера */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 40px;
+  }
+}
 }
