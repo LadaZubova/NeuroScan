@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/predict": {"origins": "https://ladazoubova.github.io"}})
+CORS(app)
 
 # Загружаем обученную модель
 print("Загрузка модели YOLO...")
