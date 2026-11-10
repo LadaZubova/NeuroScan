@@ -250,74 +250,43 @@
 <section class="section ai-demo-section" id="ai-demo">
   <div class="container" style="position: relative; z-index: 2;">
     <h2 class="section-title">Живое AI-демо</h2>
-    <p class="section-sub">Выберите тип анализа и загрузите снимок.</p>
+    <p class="section-sub">Загрузите снимок — нейросеть YOLO выделит зоны патологии и сформирует протокол.</p>
     
-    <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 32px;">
-      <button class="btn btn-pill btn-primary" id="btn-tm" onclick="switchTab('tm')">Teachable Machine</button>
-      <button class="btn btn-pill btn-glass" id="btn-yolo" onclick="switchTab('yolo')">YOLO (Python)</button>
-    </div>
-
-    <!-- Вкладка 1: TM -->
-    <div id="tab-tm">
-      <div class="ai-demo-grid">
-        <div class="glass-card ai-drop" id="aiDrop">
-          <input type="file" id="aiFile" accept="image/*" hidden>
-          <div class="ai-drop-inner" id="aiDropInner">
-            <div class="ai-drop-title">Загрузите снимок</div>
-            <div class="ai-drop-sub">TM выдаст вероятность</div>
-          </div>
-          <img id="aiPreview" style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:1;">
+    <!-- Оставили только YOLO -->
+    <div class="ai-demo-grid">
+      <div class="glass-card ai-drop" id="yoloDrop">
+        <input type="file" id="yoloFile" accept="image/*" hidden>
+        <div class="ai-drop-inner" id="yoloDropInner">
+          <div class="ai-drop-title">Загрузите снимок</div>
+          <div class="ai-drop-sub">YOLO выделит рамки</div>
         </div>
-        <div class="glass-card ai-result" id="aiResult">
-          <div class="ai-result-placeholder">Здесь появится результат</div>
-          <div class="ai-result-content" style="display:none;">
-            <div class="ai-status">✓ Анализ завершён</div>
-            <div class="ai-classes" id="aiClasses"></div>
-            <div class="ai-meta">Модель: TM v1.0 · Время: <span id="aiTime">—</span></div>
-          </div>
-          <div class="ai-loading" id="aiLoading" style="display:none;">Загрузка...</div>
-        </div>
+        <img id="yoloPreview" style="display:none; width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; z-index:1;">
       </div>
-    </div>
-
-    <!-- Вкладка 2: YOLO -->
-    <div id="tab-yolo" style="display: none;">
-      <div class="ai-demo-grid">
-        <div class="glass-card ai-drop" id="yoloDrop">
-          <input type="file" id="yoloFile" accept="image/*" hidden>
-          <div class="ai-drop-inner" id="yoloDropInner">
-            <div class="ai-drop-title">Загрузите снимок</div>
-            <div class="ai-drop-sub">YOLO выделит рамки</div>
-          </div>
-          <img id="yoloPreview" style="display:none; width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; z-index:1;">
-        </div>
-        <div class="glass-card ai-result" id="yoloResult">
-          <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат YOLO</div>
+      <div class="glass-card ai-result" id="yoloResult">
+        <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат YOLO</div>
+        
+        <div id="yoloContent" style="display:none;">
+          <div class="ai-status">✓ YOLO завершил анализ</div>
+          <div id="yoloText" style="font-size: 18px; margin-bottom: 20px;"></div>
           
-          <div id="yoloContent" style="display:none;">
-            <div class="ai-status">✓ YOLO завершил анализ</div>
-            <div id="yoloText" style="font-size: 18px; margin-bottom: 20px;"></div>
+          <!-- БЛОК ПРОТОКОЛА С КАРТИНКОЙ И КНОПКОЙ СКАЧИВАНИЯ -->
+          <div id="yoloProtocol" style="display:none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+            <h4 style="color: var(--accent); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Черновик заключения:</h4>
             
-            <!-- БЛОК ПРОТОКОЛА С КАРТИНКОЙ И КНОПКОЙ СКАЧИВАНИЯ -->
-            <div id="yoloProtocol" style="display:none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-              <h4 style="color: var(--accent); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Черновик заключения:</h4>
-              
-              <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
-                <!-- Сюда вставится картинка с рамками YOLO -->
-                <img id="yoloProtocolImg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Снимок YOLO">
-                <p id="yoloProtocolContent" style="font-size: 14px; color: var(--text-main); line-height: 1.5; flex: 1;"></p>
-              </div>
-              
-              <button id="downloadProtocolBtn" class="btn btn-pill btn-primary" style="width: 100%; font-size: 14px; padding: 10px;">
-                Скачать протокол (PDF)
-              </button>
+            <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
+              <img id="yoloProtocolImg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Снимок YOLO">
+              <p id="yoloProtocolContent" style="font-size: 14px; color: var(--text-main); line-height: 1.5; flex: 1;"></p>
             </div>
-
-            <div class="ai-meta" style="margin-top: 20px;">Модель: YOLOv8 (Python) · Время: <span id="yoloTime">—</span></div>
+            
+            <button id="downloadProtocolBtn" class="btn btn-pill btn-primary" style="width: 100%; font-size: 14px; padding: 10px;">
+              Скачать протокол (PDF)
+            </button>
           </div>
-          
-          <div class="ai-loading" id="yoloLoading" style="display:none;">Запрос к серверу...</div>
+
+          <div class="ai-meta" style="margin-top: 20px;">Модель: YOLOv8 (Python) · Время: <span id="yoloTime">—</span></div>
         </div>
+        
+        <div class="ai-loading" id="yoloLoading" style="display:none;">Запрос к серверу...</div>
       </div>
     </div>
   </div>
