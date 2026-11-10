@@ -1,8 +1,6 @@
 /* ============================================================
-   NeuroScan — Клиентская логика (Полная версия)
+   NeuroScan — Клиентская логика (Только YOLO)
    ============================================================ */
-
-let globalUploadedFile = null;
 
 /* ---------- 1. СЕГМЕНТАЦИЯ ТРАФИКА ---------- */
 window.switchSegment = function(type) {
@@ -26,53 +24,14 @@ window.switchSegment = function(type) {
   }
 };
 
-/* ---------- 2. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК AI ---------- */
-window.switchTab = function (tab) {
-  const btnTm = document.getElementById('btn-tm');
-  const btnYolo = document.getElementById('btn-yolo');
-  const tabTm = document.getElementById('tab-tm');
-  const tabYolo = document.getElementById('tab-yolo');
-
-  if (tab === 'tm') {
-    btnTm.className = 'btn btn-pill btn-primary';
-    btnYolo.className = 'btn btn-pill btn-glass';
-    tabTm.style.display = 'block';
-    tabYolo.style.display = 'none';
-  } else {
-    btnTm.className = 'btn btn-pill btn-glass';
-    btnYolo.className = 'btn btn-pill btn-primary';
-    tabTm.style.display = 'none';
-    tabYolo.style.display = 'block';
-
-    if (globalUploadedFile) {
-      const dropInner = document.getElementById('yoloDropInner');
-      const placeholder = document.getElementById('yoloPlaceholder');
-      const content = document.getElementById('yoloContent');
-      const preview = document.getElementById('yoloPreview');
-      
-      if(dropInner) dropInner.style.display = 'none';
-      if(placeholder) placeholder.style.display = 'none';
-      if(content) content.style.display = 'none';
-      if(preview) { 
-        preview.src = URL.createObjectURL(globalUploadedFile); 
-        preview.style.display = 'block'; 
-      }
-
-      if (window.runYoloUpload) {
-        window.runYoloUpload(globalUploadedFile);
-      }
-    }
-  }
-};
-
-/* ---------- 3. ФОРМА ---------- */
+/* ---------- 2. ФОРМА ---------- */
 document.getElementById('leadForm').addEventListener('submit', function(e) {
   e.preventDefault();
   document.getElementById('formSuccess').style.display = 'block';
   this.reset();
 });
 
-/* ---------- 4. ПОЛЗУНОК ДО/ПОСЛЕ ---------- */
+/* ---------- 3. ПОЛЗУНОК ДО/ПОСЛЕ ---------- */
 (function() {
   const wrapper = document.getElementById('baWrapper');
   const after = document.getElementById('baAfter');
@@ -101,72 +60,10 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
 
   wrapper.addEventListener('touchstart', (e) => { isDragging = true; moveSlider(e.touches[0].clientX); });
   window.addEventListener('touchmove', (e) => { if (isDragging) moveSlider(e.touches[0].clientX); });
-  window.addEventListener('touchend', () => { isDragging = false; });
+  wrapper.addEventListener('touchend', () => { isDragging = false; });
 })();
 
-/* ---------- 5. TEACHABLE MACHINE ---------- */
-(function () {
-  const drop = document.getElementById('aiDrop');
-  const file = document.getElementById('aiFile');
-  const preview = document.getElementById('aiPreview');
-  const inner = document.getElementById('aiDropInner');
-  const result = document.getElementById('aiResult');
-  const loading = document.getElementById('aiLoading');
-  
-  if (!drop || !file) return;
-
-  const placeholder = result.querySelector('.ai-result-placeholder');
-  const content = result.querySelector('.ai-result-content');
-  const classesEl = document.getElementById('aiClasses');
-  const timeEl = document.getElementById('aiTime');
-  let model = null;
-
-  async function loadModel() {
-    try {
-      model = await tmImage.load("./model/model.json", "./model/metadata.json");
-    } catch (e) { console.error("TM Error", e); }
-  }
-  loadModel();
-
-  drop.addEventListener('click', () => file.click());
-  file.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
-
-  async function handleFile(f) {
-    globalUploadedFile = f; 
-
-    preview.src = URL.createObjectURL(f); 
-    preview.style.display = 'block';
-    inner.style.display = 'none';
-    placeholder.style.display = 'none'; 
-    content.style.display = 'none';
-    loading.style.display = 'block';
-    loading.textContent = 'Нейросеть анализирует снимок...';
-
-    if (!model) return loading.textContent = "Модель грузится...";
-
-    preview.onload = async () => {
-      const t0 = performance.now();
-      const predictions = await model.predict(preview);
-      timeEl.textContent = Math.round(performance.now() - t0) + ' мс';
-      predictions.sort((a, b) => b.probability - a.probability);
-      
-      classesEl.innerHTML = predictions.map((p) => {
-        const isPneu = p.className.toLowerCase().includes('пневмон') || p.className.toLowerCase().includes('pneumonia');
-        const color = isPneu ? '#ef4444' : '#4ade80';
-        return `
-          <div class="ai-class" style="margin-bottom:12px;">
-            <div class="ai-class-name" style="color: ${color}; font-weight: bold;">${p.className}</div>
-            <div class="ai-class-bar" style="height:8px; background:rgba(255,255,255,0.1); border-radius:4px;"><div class="ai-class-fill" style="width:${(p.probability * 100).toFixed(1)}%; background: ${color}; height:100%; border-radius:4px;"></div></div>
-            <div class="ai-class-prob" style="color: ${color}; text-align:right; font-size:13px;">${(p.probability * 100).toFixed(1)}%</div>
-          </div>`;
-      }).join('');
-      loading.style.display = 'none';
-      content.style.display = 'block';
-    };
-  }
-})();
-
-/* ---------- 6. YOLO (Python Server) + PDF ПРОТОКОЛ ---------- */
+/* ---------- 4. YOLO (Python Server) + PDF ПРОТОКОЛ ---------- */
 (function() {
   const drop = document.getElementById('yoloDrop');
   const file = document.getElementById('yoloFile');
@@ -183,7 +80,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   drop.addEventListener('click', () => file.click());
   file.addEventListener('change', (e) => { 
     if (e.target.files[0]) {
-      globalUploadedFile = e.target.files[0];
       window.runYoloUpload(e.target.files[0]); 
     }
   });
@@ -205,7 +101,8 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/predict', {
+        // 🔥 НОВЫЙ АДРЕС ТВОЕГО СЕРВЕРА НА RENDER 🔥
+        const response = await fetch('https://neuroscan-keis.onrender.com/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: base64data })
@@ -223,7 +120,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           const protocolContent = document.getElementById('yoloProtocolContent');
           const protocolImg = document.getElementById('yoloProtocolImg');
           
-          protocolImg.src = data.image; // Картинка с рамками YOLO
+          protocolImg.src = data.image; 
           
           if (data.count > 0) {
             protocolContent.textContent = "В ходе автоматического скрининга обнаружены зоны патологических изменений. Выявленные очаги требуют верификации врачом-рентгенологом. Заключение: Признаки пневмонии.";
@@ -233,41 +130,34 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           protocolBlock.style.display = 'block';
 
-                             // --- ЛОГИКА СКАЧИВАНИЯ PDF (ШРИФТ КАК В WORD - PT SERIF) ---
+          // --- ЛОГИКА СКАЧИВАНИЯ PDF ---
           document.getElementById('downloadProtocolBtn').onclick = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // ⚠️ ВСТРАИВАЕМ ШРИФТ С ЗАСЕЧКАМИ (АНАЛОГ TIMES NEW ROMAN)
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "TimesNewRoman", "normal");
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", "TimesNewRoman", "bold");
             doc.setFont("TimesNewRoman");
 
-            // Заголовок (жирный, по центру)
             doc.setFontSize(22);
             doc.setFont("TimesNewRoman", "bold");
             doc.text("NeuroScan — Протокол AI-анализа", 105, 20, { align: "center" });
             
-            // Дата (обычный, слева)
             doc.setFontSize(11);
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
-            // Картинка с рамками YOLO
             doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
             
-            // Результат (жирный)
             doc.setFontSize(14);
             doc.setFont("TimesNewRoman", "bold");
             doc.text("Результат анализа:", 20, 175);
             
-            // Текст заключения (обычный)
             doc.setFontSize(12);
             doc.setFont("TimesNewRoman", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
-            // ⚠️ ВАЖНЫЙ ДИСКЛЕЙМЕР (КРАСНЫЙ, КАК ПРЕДУПРЕЖДЕНИЕ)
             doc.setFontSize(10);
             doc.setFont("TimesNewRoman", "bold");
             doc.setTextColor(200, 0, 0); 
@@ -275,7 +165,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
             doc.text(splitDisclaimer, 20, 220);
             
-            // Подвал (обычный, черный)
             doc.setTextColor(0, 0, 0);
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Подпись врача: _______________________", 20, 260);
@@ -291,14 +180,14 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           throw new Error(data.error);
         }
       } catch (err) {
-        loading.textContent = "Ошибка: Python-сервер не запущен.";
-        loading.style.color = "#ef4444";
+        console.error("Ошибка:", err);
+        loading.innerHTML = `<span style="color:#ef4444;">Ошибка: Сервер YOLO недоступен.</span><br><span style="font-size:12px;">Возможно, он "спит". Подождите 30-50 секунд и попробуйте снова.</span>`;
       }
     };
   };
 })();
 
-/* ---------- 7. КАЛЬКУЛЯТОР ОКУПАЕМОСТИ ---------- */
+/* ---------- 5. КАЛЬКУЛЯТОР ОКУПАЕМОСТИ ---------- */
 (function() {
   const scansInput = document.getElementById('calc-scans');
   const priceInput = document.getElementById('calc-price');
