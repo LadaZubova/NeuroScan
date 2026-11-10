@@ -233,50 +233,51 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           protocolBlock.style.display = 'block';
 
-                    // --- ЛОГИКА СКАЧИВАНИЯ PDF (ОФИЦИАЛЬНЫЙ ШРИФТ) ---
+                             // --- ЛОГИКА СКАЧИВАНИЯ PDF (ШРИФТ КАК В WORD - PT SERIF) ---
           document.getElementById('downloadProtocolBtn').onclick = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // ⚠️ ВСТРАИВАЕМ ОФИЦИАЛЬНЫЙ ШРИФТ PT SERIF (С ПОДДЕРЖКОЙ РУССКОГО)
-            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "Roboto", "normal");
-            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", "Roboto", "bold");
-            doc.setFont("Roboto");
+            // ⚠️ ВСТРАИВАЕМ ШРИФТ С ЗАСЕЧКАМИ (АНАЛОГ TIMES NEW ROMAN)
+            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "TimesNewRoman", "normal");
+            doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", "TimesNewRoman", "bold");
+            doc.setFont("TimesNewRoman");
 
-            // Заголовок
+            // Заголовок (жирный, по центру)
             doc.setFontSize(22);
-            doc.setFont("Roboto", "bold");
-            doc.text("NeuroScan — Протокол AI-анализа", 20, 20);
+            doc.setFont("TimesNewRoman", "bold");
+            doc.text("NeuroScan — Протокол AI-анализа", 105, 20, { align: "center" });
             
-            // Дата
-            doc.setFontSize(10);
-            doc.setFont("Roboto", "normal");
+            // Дата (обычный, слева)
+            doc.setFontSize(11);
+            doc.setFont("TimesNewRoman", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
             // Картинка с рамками YOLO
             doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
             
-            // Результат
+            // Результат (жирный)
             doc.setFontSize(14);
-            doc.setFont("Roboto", "bold");
+            doc.setFont("TimesNewRoman", "bold");
             doc.text("Результат анализа:", 20, 175);
             
+            // Текст заключения (обычный)
             doc.setFontSize(12);
-            doc.setFont("Roboto", "normal");
+            doc.setFont("TimesNewRoman", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
-            // ⚠️ ВАЖНЫЙ ДИСКЛЕЙМЕР (КРАСНЫЙ)
+            // ⚠️ ВАЖНЫЙ ДИСКЛЕЙМЕР (КРАСНЫЙ, КАК ПРЕДУПРЕЖДЕНИЕ)
             doc.setFontSize(10);
-            doc.setFont("Roboto", "bold"); // Жирный для акцента
+            doc.setFont("TimesNewRoman", "bold");
             doc.setTextColor(200, 0, 0); 
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
             doc.text(splitDisclaimer, 20, 220);
             
-            // Подвал (черный, обычный)
+            // Подвал (обычный, черный)
             doc.setTextColor(0, 0, 0);
-            doc.setFont("Roboto", "normal");
+            doc.setFont("TimesNewRoman", "normal");
             doc.text("Подпись врача: _______________________", 20, 260);
             doc.text("Система NeuroScan. РУ Росздравнадзора № ФСЗ 2026/12345", 20, 280);
             
