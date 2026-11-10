@@ -6,7 +6,9 @@ import base64
 import numpy as np
 import os
 
-app = Flask(__name__)
+@app.route('/')
+def home():
+    return "NeuroScan YOLO Server is running!"
 
 CORS(app)
 
