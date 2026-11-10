@@ -42,6 +42,7 @@ body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Эффект парения и свечения при наведении */
 .pain-card:hover, 
 .step:hover, 
 .trust-card:hover, 
@@ -54,6 +55,7 @@ body {
   box-shadow: 0 12px 30px rgba(246, 224, 182, 0.15); 
 }
 
+/* Линия загрузки снизу у карточек */
 .pain-card::after, 
 .step::after, 
 .trust-card::after, 
@@ -98,7 +100,7 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .section-sub { color: var(--text-muted); font-size: 18px; text-align: center; margin-bottom: 48px; }
 
 /* ============================================================
-   HEADER
+   HEADER (СЕГМЕНТАЦИЯ ТРАФИКА)
    ============================================================ */
 .glass-header {
   position: sticky; top: 0; left: 0; width: 100%;
@@ -138,6 +140,7 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
 .hero-micro { font-size: 14px; color: var(--text-muted); }
 
+/* Анимация сканера */
 .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); box-shadow: 0 0 15px var(--accent); animation: scan 3s infinite linear; z-index: 5; }
 @keyframes scan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 .scan-label { position: absolute; top: 16px; left: 16px; background: rgba(61, 21, 52, 0.9); padding: 6px 12px; border-radius: 8px; font-size: 13px; border: 1px solid var(--card-border); display: flex; align-items: center; gap: 8px; z-index: 10; }
@@ -180,7 +183,7 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .case-author .role { font-size: 14px; color: var(--text-muted); }
 
 /* ============================================================
-   ПОЛЗУНОК
+   ПОЛЗУНОК ДО/ПОСЛЕ
    ============================================================ */
 .ba-section { padding: 80px 24px; background: var(--bg-color); }
 .ba-wrapper {
@@ -218,14 +221,15 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .ai-loading { text-align: center; color: var(--accent); font-weight: 500; }
 
 /* ============================================================
-   ФОРМА И ФУТЕР
+   ФОРМА (С ПОДПИСЯМИ)
    ============================================================ */
 .form-section { padding-bottom: 100px; }
 .form-wrap { max-width: 500px; margin: 0 auto; background: var(--card-bg); }
-.form-group { margin-bottom: 16px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
 .form-group input { width: 100%; padding: 14px 16px; background: var(--bg-color); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 16px; font-family: 'Inter', sans-serif; outline: none; transition: 0.2s; }
 .form-group input:focus { border-color: var(--accent); }
-.form-group input::placeholder { color: var(--text-muted); }
+.form-group input::placeholder { color: var(--text-muted); opacity: 0.6; }
 .form-micro { font-size: 13px; text-align: center; color: var(--text-muted); margin-top: 16px; }
 
 footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: var(--bg-color); }
