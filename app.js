@@ -238,7 +238,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // ⚠️ ВСТРАИВАЕМ РУССКИЙ ШРИФТ (Roboto)
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "Roboto", "normal");
             doc.setFont("Roboto");
 
@@ -258,7 +257,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 185);
             
-            // ⚠️ ДОБАВЛЯЕМ ВАЖНЫЙ ДИСКЛЕЙМЕР
             doc.setFontSize(10);
             doc.setTextColor(200, 0, 0); // Красный цвет для важности
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
