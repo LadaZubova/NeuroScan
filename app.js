@@ -84,7 +84,8 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        const response = await fetch('https://neuroscan-keie.onrender.com/predict', {
+        // ИЗМЕНЕНО: адрес теперь локальный
+        const response = await fetch('http://127.0.0.1:5000/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: base64data })
@@ -104,7 +105,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           protocolImg.src = data.image; 
           
-          // Проверяем, есть ли тепловая карта
           const hasHeatmap = data.heatmap && data.heatmap.length > 100;
           if (hasHeatmap) {
             heatmapImg.src = data.heatmap;
