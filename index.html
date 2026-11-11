@@ -12,6 +12,7 @@
 <body>
 
 <header class="glass-header">
+  <button class="menu-toggle" id="menuToggle">☰</button>
   <a href="#" class="logo"><span class="logo-mark">N</span> NeuroScan</a>
   
   <div class="nav-links">
@@ -401,6 +402,25 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Боковое меню для мобильных -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+  <nav class="mobile-nav-links">
+    <a href="#how" onclick="closeMobileMenu()">Как работает</a>
+    <a href="#trust" onclick="closeMobileMenu()">Безопасность</a>
+    <a href="#economics" onclick="closeMobileMenu()">Экономика</a>
+    <a href="#case" onclick="closeMobileMenu()">Кейс</a>
+    <a href="#ai-demo" onclick="closeMobileMenu()">AI-демо</a>
+    <a href="#demo" class="btn btn-primary" style="margin-top: 16px;" onclick="closeMobileMenu()">Демо-доступ</a>
+  </nav>
+  
+  <!-- Переключатель для мобильных -->
+  <div class="mobile-segmentation">
+    <button class="seg-btn active" id="mob-btn-state" onclick="switchSegment('state')">Гос. больницы</button>
+    <button class="seg-btn" id="mob-btn-private" onclick="switchSegment('private')">Частные центры</button>
+  </div>
+</div>
 <script src="./app.js"></script>
 </body>
 </html>
