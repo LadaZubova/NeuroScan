@@ -99,9 +99,10 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           const protocolBlock = document.getElementById('yoloProtocol');
           const protocolContent = document.getElementById('yoloProtocolContent');
-          const protocolImg = document.getElementById('yoloProtocolImg');
           
-          protocolImg.src = data.image; 
+          // Вставляем обе картинки
+          document.getElementById('yoloProtocolImg').src = data.image; 
+          document.getElementById('yoloHeatmapImg').src = data.heatmap; 
           
           if (data.count > 0) {
             protocolContent.textContent = "В ходе автоматического скрининга обнаружены зоны патологических изменений. Выявленные очаги требуют верификации врачом-рентгенологом. Заключение: Признаки пневмонии.";
@@ -127,23 +128,29 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
-            doc.addImage(data.image, 'JPEG', 20, 40, 120, 120);
+            // ДВЕ КАРТИНКИ В ПРОТОКОЛЕ
+            doc.addImage(data.image, 'JPEG', 20, 40, 80, 80);
+            doc.addImage(data.heatmap, 'JPEG', 110, 40, 80, 80);
+            
+            doc.setFontSize(10);
+            doc.text("Разметка зон", 45, 125, { align: "center" });
+            doc.text("Тепловая карта", 150, 125, { align: "center" });
             
             doc.setFontSize(14);
             doc.setFont("TimesNewRoman", "bold");
-            doc.text("Результат анализа:", 20, 175);
+            doc.text("Результат анализа:", 20, 145);
             
             doc.setFontSize(12);
             doc.setFont("TimesNewRoman", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
-            doc.text(splitText, 20, 185);
+            doc.text(splitText, 20, 155);
             
             doc.setFontSize(10);
             doc.setFont("TimesNewRoman", "bold");
             doc.setTextColor(200, 0, 0); 
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
-            doc.text(splitDisclaimer, 20, 220);
+            doc.text(splitDisclaimer, 20, 190);
             
             doc.setTextColor(0, 0, 0);
             doc.setFont("TimesNewRoman", "normal");
@@ -253,7 +260,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   startAutoScroll();
 })();
 
-/* ---------- 9. СКРОЛЛ-АНИМАЦИЯ ЭКОНОМИКИ ---------- */
 (function() {
   const trigger = document.getElementById('econAnimationTrigger');
   const cards = document.getElementById('econCards');
@@ -273,7 +279,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
 
   observer.observe(trigger);
 })();
-/* АНИМАЦИЯ ПОЯВЛЕНИЯ / ИСЧЕЗНОВЕНИЯ  */
+
 (function() {
   const elementsToAnimate = document.querySelectorAll(
     '.glass-card, .section-title, .section-sub, .hero-text-block, .hero-image-block'
