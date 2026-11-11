@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=18">
+  <link rel="stylesheet" href="./styles.css?v=19">
 </head>
 <body>
 
@@ -172,18 +172,23 @@
       <div class="glass-card calculator-wrap">
         <div class="calc-header">
           <h3>Калькулятор окупаемости</h3>
-          <p>Подвиньте ползунки, чтобы увидеть выгоду для вашей клиники.</p>
+          <p>Введите данные вашей клиники, чтобы увидеть выгоду.</p>
         </div>
         
         <div class="calc-grid">
           <div class="calc-inputs">
             <div class="calc-group">
-              <label>Снимков в месяц: <span id="calc-scans-val">1000</span></label>
-              <input type="range" id="calc-scans" min="100" max="5000" step="100" value="1000">
+              <label for="calc-scans-input">Снимков в месяц</label>
+              <div class="input-with-icon">
+                <input type="number" id="calc-scans-input" min="10" max="50000" step="10" value="1000" placeholder="Например, 1000">
+              </div>
             </div>
             <div class="calc-group">
-              <label>Стоимость одного снимка (руб.): <span id="calc-price-val">1500</span></label>
-              <input type="range" id="calc-price" min="500" max="5000" step="100" value="1500">
+              <label for="calc-price-input">Стоимость одного снимка (руб.)</label>
+              <div class="input-with-icon">
+                <span class="input-icon">₽</span>
+                <input type="number" id="calc-price-input" min="100" max="10000" step="100" value="1500" placeholder="Например, 1500">
+              </div>
             </div>
           </div>
 
