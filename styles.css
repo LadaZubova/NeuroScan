@@ -697,3 +697,83 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     gap: 8px !important;
   }
 }
+/* ============================================================
+   ЕЩЁ БОЛЬШЕ КОМПАКТНОСТИ ДЛЯ ТЕЛЕФОНОВ
+   ============================================================ */
+@media (max-width: 600px) {
+  /* 1. Уменьшаем отступы внутри карточек (было 20px 16px) */
+  .glass-card {
+    padding: 14px 12px !important;
+  }
+
+  /* 2. Уменьшаем отступы между карточками (было 12px) */
+  .pains-grid, .steps, .trust-grid, .econ-table, .calc-grid {
+    gap: 10px !important;
+  }
+
+  /* 3. Уменьшаем отступы внутри карточек болей */
+  .pain-card, .step, .trust-card {
+    padding: 12px 10px !important;
+  }
+  .pain-card h3, .step h3, .trust-card h3 {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+  .pain-card p, .step p, .trust-card p {
+    font-size: 13px !important;
+  }
+
+  /* 4. Уменьшаем блок "Решение" */
+  .solution-banner {
+    padding: 16px 12px !important;
+    margin-top: 16px !important;
+  }
+  .solution-banner h3 {
+    font-size: 18px !important;
+  }
+
+  /* 5. Калькулятор (делаем ещё тоньше) */
+  .calc-group {
+    margin-bottom: 12px !important;
+  }
+  .input-with-icon input {
+    padding: 10px 12px 10px 36px !important;
+    font-size: 15px !important;
+  }
+  .calc-results {
+    padding: 16px 12px !important;
+  }
+  .res-label {
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+  }
+  .res-value {
+    font-size: 22px !important;
+  }
+
+  /* 6. Форма (лид-форма) */
+  .form-group {
+    margin-bottom: 10px !important;
+  }
+  .form-group input {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+  .form-wrap {
+    padding: 16px 12px !important;
+  }
+  .form-wrap .section-title {
+    font-size: 20px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* 7. Заголовки секций */
+  .section-title {
+    font-size: 22px !important;
+    margin-bottom: 8px !important;
+  }
+  .section-sub {
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+}
