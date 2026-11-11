@@ -367,16 +367,22 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   transform: translate(0, 0) scale(1);
 }
 
-@media (max-width: 900px) {
-  .econ-table {
-    grid-template-columns: 1fr;
-  }
-  .econ-item, .card-left, .card-right {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ / ИСЧЕЗНОВЕНИЯ ПРИ СКРОЛЛЕ */
+.reveal-item {
+  opacity: 0.1;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
 }
 
+.reveal-item.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ============================================================
+   АДАПТИВ (ВСЁ В КОНЦЕ)
+   ============================================================ */
 @media (max-width: 1000px) { 
   .segmentation-switch { display: none; } 
 }
@@ -394,6 +400,15 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   .glass-header { padding: 16px 24px; }
   .calc-grid { grid-template-columns: 1fr; gap: 24px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  
+  /* Отключаем разлет карточек на мобильных, чтобы не было багов */
+  .econ-table {
+    grid-template-columns: 1fr;
+  }
+  .econ-item, .card-left, .card-right {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @media (max-width: 768px) {
@@ -413,16 +428,4 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     gap: 32px;
     padding-top: 40px;
   }
-  /* АНИМАЦИЯ ПОЯВЛЕНИЯ / ИСЧЕЗНОВЕНИЯ ПРИ СКРОЛЛЕ */
-.reveal-item {
-  opacity: 0.1;
-  transform: translateY(30px) scale(0.98);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  will-change: opacity, transform;
-}
-
-.reveal-item.is-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
 }
