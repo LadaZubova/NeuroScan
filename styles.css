@@ -875,3 +875,45 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     display: none !important;
   }
 }
+/* Предупреждение для мобильных — по умолчанию скрыто */
+.ai-mobile-warning {
+  display: none;
+}
+
+/* На мобильных: скрываем демо, показываем предупреждение */
+@media (max-width: 768px) {
+  #ai-demo .ai-demo-grid {
+    display: none !important;
+  }
+
+  .ai-mobile-warning {
+    display: block;
+    max-width: 480px;
+    margin: 32px auto 0;
+    padding: 32px 24px;
+    text-align: center;
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 16px;
+  }
+
+  .ai-mobile-warning-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  .ai-mobile-warning h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-main, #0f172a);
+  }
+
+  .ai-mobile-warning p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-muted, #64748b);
+    margin: 0;
+  }
+}
