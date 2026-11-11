@@ -1,3 +1,5 @@
+const API_URL = 'http://192.168.1.42:5000/predict';
+
 window.switchSegment = function(type) {
   const btnState = document.getElementById('btn-state');
   const btnPrivate = document.getElementById('btn-private');
@@ -7,7 +9,6 @@ window.switchSegment = function(type) {
   const title = document.getElementById('hero-title');
   const sub = document.getElementById('hero-sub');
 
-  // Обновляем тексты
   if (type === 'state') {
     if (badge) badge.textContent = "Зарегистрированное медицинское изделие";
     if (title) title.innerHTML = 'Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»';
@@ -18,7 +19,6 @@ window.switchSegment = function(type) {
     if (sub) sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
   }
 
-  // Обновляем десктопный переключатель (если он есть)
   if (btnState && btnPrivate) {
     if (type === 'state') {
       btnState.classList.add('active');
@@ -29,7 +29,6 @@ window.switchSegment = function(type) {
     }
   }
 
-  // Обновляем мобильный переключатель (если он есть)
   if (mobBtnState && mobBtnPrivate) {
     if (type === 'state') {
       mobBtnState.classList.add('active');
@@ -81,12 +80,12 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   const textRes = document.getElementById('yoloText');
   const loading = document.getElementById('yoloLoading');
   const timeEl = document.getElementById('yoloTime');
-  
+
   if (!drop || !file) return;
 
   drop.addEventListener('click', () => file.click());
-  file.addEventListener('change', (e) => { 
-    if (e.target.files[0]) window.runYoloUpload(e.target.files[0]); 
+  file.addEventListener('change', (e) => {
+    if (e.target.files[0]) window.runYoloUpload(e.target.files[0]);
   });
 
   window.runYoloUpload = async function(imageFile) {
@@ -106,26 +105,26 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/predict', {
+        const response = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: base64data })
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
-          preview.src = data.image; 
+          preview.src = data.image;
           preview.style.display = 'block';
           textRes.innerHTML = `<span style="color:#ef4444; font-weight:bold;">Найдено зон: ${data.count}</span>`;
-          
+
           const protocolBlock = document.getElementById('yoloProtocol');
           const protocolContent = document.getElementById('yoloProtocolContent');
           const protocolImg = document.getElementById('yoloProtocolImg');
           const heatmapImg = document.getElementById('yoloHeatmapImg');
-          
-          protocolImg.src = data.image; 
-          
+
+          protocolImg.src = data.image;
+
           const hasHeatmap = data.heatmap && data.heatmap.length > 100;
           if (hasHeatmap) {
             heatmapImg.src = data.heatmap;
@@ -133,19 +132,19 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           } else {
             heatmapImg.style.display = 'none';
           }
-          
+
           if (data.count > 0) {
             protocolContent.textContent = "В ходе автоматического скрининга обнаружены зоны патологических изменений. Выявленные очаги требуют верификации врачом-рентгенологом. Заключение: Признаки пневмонии.";
           } else {
             protocolContent.textContent = "Зон патологических изменений не обнаружено. Показатели в пределах нормы. Заключение: Патологии не выявлено.";
           }
-          
+
           protocolBlock.style.display = 'block';
 
           document.getElementById('downloadProtocolBtn').onclick = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
+
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", "TimesNewRoman", "normal");
             doc.addFont("https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", "TimesNewRoman", "bold");
             doc.setFont("TimesNewRoman");
@@ -153,11 +152,11 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             doc.setFontSize(22);
             doc.setFont("TimesNewRoman", "bold");
             doc.text("NeuroScan — Протокол AI-анализа", 105, 20, { align: "center" });
-            
+
             doc.setFontSize(11);
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
-            
+
             if (hasHeatmap) {
               doc.addImage(data.image, 'JPEG', 20, 40, 80, 80);
               doc.addImage(data.heatmap, 'JPEG', 110, 40, 80, 80);
@@ -169,31 +168,31 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
               doc.setFontSize(10);
               doc.text("Разметка зон", 105, 135, { align: "center" });
             }
-            
+
             doc.setFontSize(14);
             doc.setFont("TimesNewRoman", "bold");
             doc.text("Результат анализа:", 20, 155);
-            
+
             doc.setFontSize(12);
             doc.setFont("TimesNewRoman", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
             doc.text(splitText, 20, 165);
-            
+
             doc.setFontSize(10);
             doc.setFont("TimesNewRoman", "bold");
-            doc.setTextColor(200, 0, 0); 
+            doc.setTextColor(200, 0, 0);
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
             doc.text(splitDisclaimer, 20, 200);
-            
+
             doc.setTextColor(0, 0, 0);
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Подпись врача: _______________________", 20, 260);
             doc.text("Система NeuroScan. РУ Росздравнадзора № ФСЗ 2026/12345", 20, 280);
-            
+
             doc.save("NeuroScan_Protocol.pdf");
           };
-          
+
           timeEl.textContent = Math.round(performance.now() - t0) + ' мс';
           loading.style.display = 'none';
           content.style.display = 'block';
@@ -201,6 +200,8 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           throw new Error(data.error);
         }
       } catch (err) {
+        console.error('FETCH ERROR:', err);
+        console.error('URL:', API_URL);
         loading.innerHTML = `<span style="color:#ef4444;">Ошибка: Сервер временно недоступен.</span><br><span style="font-size:12px;">Подождите 30 секунд и попробуйте снова.</span>`;
       }
     };
@@ -344,24 +345,20 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   const mobileMenuClose = document.getElementById('mobileMenuClose');
   const overlay = document.getElementById('mobileMenuOverlay');
 
-  // Если кнопки или меню нет на странице — ничего не делаем
   if (!menuToggle || !mobileMenu) return;
 
-  // Функция открытия меню
   window.openMobileMenu = function() {
     mobileMenu.style.left = '0';
     if (overlay) overlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
   };
 
-  // Функция закрытия меню
   window.closeMobileMenu = function() {
     mobileMenu.style.left = '-100%';
     if (overlay) overlay.style.display = 'none';
     document.body.style.overflow = '';
   };
 
-  // Вешаем события на кнопки
   menuToggle.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
