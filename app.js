@@ -379,3 +379,13 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     });
   }
 })();
+(function() {
+  function hideAiDemoOnMobile() {
+    if (window.innerWidth <= 768) {
+      var aiDemo = document.getElementById('ai-demo');
+      if (aiDemo) aiDemo.style.display = 'none';
+    }
+  }
+  hideAiDemoOnMobile();
+  window.addEventListener('resize', hideAiDemoOnMobile);
+})();
