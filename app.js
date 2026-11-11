@@ -1,21 +1,43 @@
 window.switchSegment = function(type) {
   const btnState = document.getElementById('btn-state');
   const btnPrivate = document.getElementById('btn-private');
+  const mobBtnState = document.getElementById('mob-btn-state');
+  const mobBtnPrivate = document.getElementById('mob-btn-private');
   const badge = document.getElementById('hero-badge');
   const title = document.getElementById('hero-title');
   const sub = document.getElementById('hero-sub');
+
+  // Обновляем тексты
   if (type === 'state') {
-    btnState.classList.add('active');
-    btnPrivate.classList.remove('active');
-    badge.textContent = "Зарегистрированное медицинское изделие";
-    title.innerHTML = 'Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»';
-    sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.";
+    if (badge) badge.textContent = "Зарегистрированное медицинское изделие";
+    if (title) title.innerHTML = 'Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»';
+    if (sub) sub.textContent = "Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.";
   } else {
-    btnPrivate.classList.add('active');
-    btnState.classList.remove('active');
-    badge.textContent = "Для частных медицинских центров";
-    title.innerHTML = 'Увеличьте маржинальность диагностики <span class="accent">на 35%</span>';
-    sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
+    if (badge) badge.textContent = "Для частных медицинских центров";
+    if (title) title.innerHTML = 'Увеличьте маржинальность диагностики <span class="accent">на 35%</span>';
+    if (sub) sub.textContent = "Внедрите ИИ-ассистента, чтобы удерживать пациентов, предлагать премиум-услуги быстрее конкурентов и повышать средний чек без найма новых врачей.";
+  }
+
+  // Обновляем десктопный переключатель (если он есть)
+  if (btnState && btnPrivate) {
+    if (type === 'state') {
+      btnState.classList.add('active');
+      btnPrivate.classList.remove('active');
+    } else {
+      btnPrivate.classList.add('active');
+      btnState.classList.remove('active');
+    }
+  }
+
+  // Обновляем мобильный переключатель (если он есть)
+  if (mobBtnState && mobBtnPrivate) {
+    if (type === 'state') {
+      mobBtnState.classList.add('active');
+      mobBtnPrivate.classList.remove('active');
+    } else {
+      mobBtnPrivate.classList.add('active');
+      mobBtnState.classList.remove('active');
+    }
   }
 };
 
@@ -314,6 +336,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     observer.observe(el);
   });
 })();
+
 /* ---------- 10. МОБИЛЬНОЕ БОКОВОЕ МЕНЮ ---------- */
 (function() {
   const menuToggle = document.getElementById('menuToggle');
@@ -321,60 +344,41 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   const mobileMenuClose = document.getElementById('mobileMenuClose');
   const overlay = document.getElementById('mobileMenuOverlay');
 
+  // Если кнопки или меню нет на странице — ничего не делаем
   if (!menuToggle || !mobileMenu) return;
 
-  function openMobileMenu() {
-    mobileMenu.classList.add('open');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Блокируем скролл фона
-  }
-
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('open');
-    overlay.classList.remove('active');
-    document.body.style.overflow = ''; // Возвращаем скролл
-  }
-
-  // Глобальная функция, чтобы ее можно было вызвать из HTML (onclick)
-  window.closeMobileMenu = closeMobileMenu;
-
-  menuToggle.addEventListener('click', openMobileMenu);
-  mobileMenuClose.addEventListener('click', closeMobileMenu);
-  overlay.addEventListener('click', closeMobileMenu);
-})();
-
-/* Синхронизация переключателей Гос/Частные (десктоп и мобильный) */
-(function() {
-  const btnState = document.getElementById('btn-state');
-  const btnPrivate = document.getElementById('btn-private');
-  const mobBtnState = document.getElementById('mob-btn-state');
-  const mobBtnPrivate = document.getElementById('mob-btn-private');
-
-  // Переопределяем switchSegment, чтобы он обновлял оба переключателя
-  const originalSwitch = window.switchSegment;
-  window.switchSegment = function(type) {
-    originalSwitch(type); // Вызываем оригинальную логику текста
-    
-    // Обновляем мобильные кнопки
-    if (mobBtnState && mobBtnPrivate) {
-      if (type === 'state') {
-        mobBtnState.classList.add('active');
-        mobBtnPrivate.classList.remove('active');
-      } else {
-        mobBtnPrivate.classList.add('active');
-        mobBtnState.classList.remove('active');
-      }
-    }
-    
-    // Обновляем десктопные кнопки (если они есть)
-    if (btnState && btnPrivate) {
-      if (type === 'state') {
-        btnState.classList.add('active');
-        btnPrivate.classList.remove('active');
-      } else {
-        btnPrivate.classList.add('active');
-        btnState.classList.remove('active');
-      }
-    }
+  // Функция открытия меню
+  window.openMobileMenu = function() {
+    mobileMenu.style.left = '0';
+    if (overlay) overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
   };
+
+  // Функция закрытия меню
+  window.closeMobileMenu = function() {
+    mobileMenu.style.left = '-100%';
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  // Вешаем события на кнопки
+  menuToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.openMobileMenu();
+  });
+
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.closeMobileMenu();
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.closeMobileMenu();
+    });
+  }
 })();
