@@ -577,9 +577,7 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     gap: 24px !important;
   }
 }
-/* ============================================================
-   МОБИЛЬНАЯ КОМПАКТНАЯ ВЕРСИЯ (СИЛА!)
-   ============================================================ */
+
 @media (max-width: 600px) {
   /* 1. Уменьшаем ВСЕ заголовки на сайте */
   h1, h2, h3, .section-title, .hero-title {
@@ -697,9 +695,7 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     gap: 8px !important;
   }
 }
-/* ============================================================
-   ЕЩЁ БОЛЬШЕ КОМПАКТНОСТИ ДЛЯ ТЕЛЕФОНОВ
-   ============================================================ */
+
 @media (max-width: 600px) {
   /* 1. Уменьшаем отступы внутри карточек (было 20px 16px) */
   .glass-card {
@@ -775,5 +771,107 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   .section-sub {
     font-size: 14px !important;
     margin-bottom: 20px !important;
+  }
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0 10px 0 0;
+}
+
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mobile-menu-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-menu {
+  display: block;
+  position: fixed;
+  top: 0; left: -100%; /* Скрыто слева */
+  width: 280px;
+  height: 100vh;
+  background: var(--bg-color);
+  border-right: 1px solid var(--card-border);
+  z-index: 1002;
+  padding: 60px 24px 24px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+}
+.mobile-menu.open {
+  left: 0; /* Выезжает */
+}
+
+.mobile-menu-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mobile-nav-links a {
+  color: var(--text-main);
+  font-size: 18px;
+  text-decoration: none;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-nav-links a:hover {
+  color: var(--accent);
+}
+
+.mobile-segmentation {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0,0,0,0.2);
+  padding: 8px;
+  border-radius: 12px;
+}
+.mobile-segmentation .seg-btn {
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+}
+
+/* На мобильных показываем бургер, а обычные ссылки и переключатель скрываем */
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: block;
+  }
+  /* Скрываем десктопный переключатель и кнопку в шапке (она есть в меню) */
+  .glass-header .segmentation-switch,
+  .glass-header > a.btn {
+    display: none !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-menu, .mobile-menu-overlay {
+    display: none !important;
   }
 }
