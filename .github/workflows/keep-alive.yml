@@ -12,6 +12,4 @@ jobs:
     steps:
       - name: Ping Render Server
         run: |
-          # Стучимся на главную страницу твоего сервера
-          curl -sS --max-time 60 https://neuroscan-keie.onrender.com/ > /dev/null
-          echo "Server pinged successfully!"
+         
