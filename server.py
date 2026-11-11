@@ -14,17 +14,15 @@ from pytorch_grad_cam.utils.image import show_cam_on_image
 from PIL import Image
 
 app = Flask(__name__)
-CORS(app) # Разрешаем сайту отправлять запросы
+CORS(app)
 
 print("Загрузка моделей...")
-# 1. Загружаем YOLO
 yolo_model = YOLO('best.pt')
 
-# 2. Загружаем ResNet18 для Grad-CAM (облегченную версию)
 resnet = models.resnet18(pretrained=False)
 resnet.fc = torch.nn.Linear(resnet.fc.in_features, 2)
 resnet.load_state_dict(torch.load('resnet_pneumonia.pth', map_location='cpu'))
-resnet.half() # Переводим в float16
+resnet.half()
 resnet.eval()
 print("Модели успешно загружены!")
 
@@ -57,16 +55,19 @@ def predict():
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
         input_tensor = transform(img_pil).unsqueeze(0)
-        input_tensor = input_tensor.half() # Переводим в float16 для совместимости
+        input_tensor = input_tensor.half()
         input_tensor.requires_grad = True
 
         target_layers = [resnet.layer4[-1]]
         cam = GradCAM(model=resnet, target_layers=target_layers)
         
-        targets = [ClassifierOutputTarget(0)] # Класс 0 - Пневмония
+        targets = [ClassifierOutputTarget(0)]
         
         grayscale_cam = cam(input_tensor=input_tensor, targets=targets)
         grayscale_cam = grayscale_cam[0, :]
+        
+        # ⚠️ ИСПРАВЛЕНИЕ: Изменяем размер тепловой карты под размер оригинала
+        grayscale_cam = cv2.resize(grayscale_cam, (img_rgb.shape[1], img_rgb.shape[0]))
         
         img_float = np.float32(img_rgb) / 255
         heatmap_img = show_cam_on_image(img_float, grayscale_cam, use_rgb=True)
@@ -86,5 +87,4 @@ def predict():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
-    # Запускаем сервер локально на порту 5000
     app.run(host='127.0.0.1', port=5000)
