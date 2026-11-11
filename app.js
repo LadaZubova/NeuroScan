@@ -314,3 +314,67 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     observer.observe(el);
   });
 })();
+/* ---------- 10. МОБИЛЬНОЕ БОКОВОЕ МЕНЮ ---------- */
+(function() {
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+  const overlay = document.getElementById('mobileMenuOverlay');
+
+  if (!menuToggle || !mobileMenu) return;
+
+  function openMobileMenu() {
+    mobileMenu.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Блокируем скролл фона
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // Возвращаем скролл
+  }
+
+  // Глобальная функция, чтобы ее можно было вызвать из HTML (onclick)
+  window.closeMobileMenu = closeMobileMenu;
+
+  menuToggle.addEventListener('click', openMobileMenu);
+  mobileMenuClose.addEventListener('click', closeMobileMenu);
+  overlay.addEventListener('click', closeMobileMenu);
+})();
+
+/* Синхронизация переключателей Гос/Частные (десктоп и мобильный) */
+(function() {
+  const btnState = document.getElementById('btn-state');
+  const btnPrivate = document.getElementById('btn-private');
+  const mobBtnState = document.getElementById('mob-btn-state');
+  const mobBtnPrivate = document.getElementById('mob-btn-private');
+
+  // Переопределяем switchSegment, чтобы он обновлял оба переключателя
+  const originalSwitch = window.switchSegment;
+  window.switchSegment = function(type) {
+    originalSwitch(type); // Вызываем оригинальную логику текста
+    
+    // Обновляем мобильные кнопки
+    if (mobBtnState && mobBtnPrivate) {
+      if (type === 'state') {
+        mobBtnState.classList.add('active');
+        mobBtnPrivate.classList.remove('active');
+      } else {
+        mobBtnPrivate.classList.add('active');
+        mobBtnState.classList.remove('active');
+      }
+    }
+    
+    // Обновляем десктопные кнопки (если они есть)
+    if (btnState && btnPrivate) {
+      if (type === 'state') {
+        btnState.classList.add('active');
+        btnPrivate.classList.remove('active');
+      } else {
+        btnPrivate.classList.add('active');
+        btnState.classList.remove('active');
+      }
+    }
+  };
+})();
