@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=16">
+  <link rel="stylesheet" href="./styles.css?v=17">
 </head>
 <body>
 
@@ -148,54 +148,58 @@
     <h2 class="section-title">Цифры для главного врача</h2>
     <p class="section-sub">Язык цифр: понятная экономика и измеримый эффект от внедрения.</p>
     
-    <div class="econ-table" style="margin-bottom: 40px;">
-      <div class="glass-card econ-item">
-        <div class="value">+35%</div>
-        <div class="label">Пропускная способность отделения</div>
-      </div>
-      <div class="glass-card econ-item">
-        <div class="value">в 2.5 раза</div>
-        <div class="label">Снижение риска врачебной ошибки</div>
-      </div>
-      <div class="glass-card econ-item">
-        <div class="value">от 3 мес.</div>
-        <div class="label">Срок окупаемости внедрения системы</div>
-      </div>
-      <div class="glass-card econ-item">
-        <div class="value">−40%</div>
-        <div class="label">Время на описание снимков КТ и рентгена</div>
-      </div>
-    </div>
-
-    <div class="glass-card calculator-wrap">
-      <div class="calc-header">
-        <h3>Калькулятор окупаемости</h3>
-        <p>Подвиньте ползунки, чтобы увидеть выгоду для вашей клиники.</p>
-      </div>
+    <div class="econ-animation-wrapper" id="econAnimationTrigger">
       
-      <div class="calc-grid">
-        <div class="calc-inputs">
-          <div class="calc-group">
-            <label>Снимков в месяц: <span id="calc-scans-val">1000</span></label>
-            <input type="range" id="calc-scans" min="100" max="5000" step="100" value="1000">
-          </div>
-          <div class="calc-group">
-            <label>Стоимость одного снимка (руб.): <span id="calc-price-val">1500</span></label>
-            <input type="range" id="calc-price" min="500" max="5000" step="100" value="1500">
-          </div>
+      <div class="econ-table" id="econCards">
+        <div class="glass-card econ-item card-left"> 
+          <div class="value">+35%</div>
+          <div class="label">Пропускная способность отделения</div>
         </div>
+        <div class="glass-card econ-item card-left">
+          <div class="value">в 2.5 раза</div>
+          <div class="label">Снижение риска врачебной ошибки</div>
+        </div>
+        <div class="glass-card econ-item card-right">
+          <div class="value">от 3 мес.</div>
+          <div class="label">Срок окупаемости внедрения системы</div>
+        </div>
+        <div class="glass-card econ-item card-right">
+          <div class="value">−40%</div>
+          <div class="label">Время на описание снимков КТ и рентгена</div>
+        </div>
+      </div>
 
-        <div class="calc-results">
-          <div class="result-item">
-            <div class="res-label">Дополнительная выручка в месяц</div>
-            <div class="res-value" id="calc-revenue">525 000 ₽</div>
+      <div class="glass-card calculator-wrap">
+        <div class="calc-header">
+          <h3>Калькулятор окупаемости</h3>
+          <p>Подвиньте ползунки, чтобы увидеть выгоду для вашей клиники.</p>
+        </div>
+        
+        <div class="calc-grid">
+          <div class="calc-inputs">
+            <div class="calc-group">
+              <label>Снимков в месяц: <span id="calc-scans-val">1000</span></label>
+              <input type="range" id="calc-scans" min="100" max="5000" step="100" value="1000">
+            </div>
+            <div class="calc-group">
+              <label>Стоимость одного снимка (руб.): <span id="calc-price-val">1500</span></label>
+              <input type="range" id="calc-price" min="500" max="5000" step="100" value="1500">
+            </div>
           </div>
-          <div class="result-item">
-            <div class="res-label">Сэкономленное время врачей</div>
-            <div class="res-value" id="calc-time">166 часов</div>
+
+          <div class="calc-results">
+            <div class="result-item">
+              <div class="res-label">Дополнительная выручка в месяц</div>
+              <div class="res-value" id="calc-revenue">525 000 ₽</div>
+            </div>
+            <div class="result-item">
+              <div class="res-label">Сэкономленное время врачей</div>
+              <div class="res-value" id="calc-time">166 часов</div>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
