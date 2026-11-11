@@ -99,10 +99,19 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           
           const protocolBlock = document.getElementById('yoloProtocol');
           const protocolContent = document.getElementById('yoloProtocolContent');
+          const protocolImg = document.getElementById('yoloProtocolImg');
+          const heatmapImg = document.getElementById('yoloHeatmapImg');
           
-          // Вставляем обе картинки
-          document.getElementById('yoloProtocolImg').src = data.image; 
-          document.getElementById('yoloHeatmapImg').src = data.heatmap; 
+          protocolImg.src = data.image; 
+          
+          // Проверяем, есть ли тепловая карта
+          const hasHeatmap = data.heatmap && data.heatmap.length > 100;
+          if (hasHeatmap) {
+            heatmapImg.src = data.heatmap;
+            heatmapImg.style.display = 'block';
+          } else {
+            heatmapImg.style.display = 'none';
+          }
           
           if (data.count > 0) {
             protocolContent.textContent = "В ходе автоматического скрининга обнаружены зоны патологических изменений. Выявленные очаги требуют верификации врачом-рентгенологом. Заключение: Признаки пневмонии.";
@@ -128,29 +137,33 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
             doc.setFont("TimesNewRoman", "normal");
             doc.text("Дата: " + new Date().toLocaleString('ru-RU'), 20, 30);
             
-            // ДВЕ КАРТИНКИ В ПРОТОКОЛЕ
-            doc.addImage(data.image, 'JPEG', 20, 40, 80, 80);
-            doc.addImage(data.heatmap, 'JPEG', 110, 40, 80, 80);
-            
-            doc.setFontSize(10);
-            doc.text("Разметка зон", 45, 125, { align: "center" });
-            doc.text("Тепловая карта", 150, 125, { align: "center" });
+            if (hasHeatmap) {
+              doc.addImage(data.image, 'JPEG', 20, 40, 80, 80);
+              doc.addImage(data.heatmap, 'JPEG', 110, 40, 80, 80);
+              doc.setFontSize(10);
+              doc.text("Разметка зон", 45, 125, { align: "center" });
+              doc.text("Тепловая карта", 150, 125, { align: "center" });
+            } else {
+              doc.addImage(data.image, 'JPEG', 60, 40, 90, 90);
+              doc.setFontSize(10);
+              doc.text("Разметка зон", 105, 135, { align: "center" });
+            }
             
             doc.setFontSize(14);
             doc.setFont("TimesNewRoman", "bold");
-            doc.text("Результат анализа:", 20, 145);
+            doc.text("Результат анализа:", 20, 155);
             
             doc.setFontSize(12);
             doc.setFont("TimesNewRoman", "normal");
             const splitText = doc.splitTextToSize(protocolContent.textContent, 170);
-            doc.text(splitText, 20, 155);
+            doc.text(splitText, 20, 165);
             
             doc.setFontSize(10);
             doc.setFont("TimesNewRoman", "bold");
             doc.setTextColor(200, 0, 0); 
             const disclaimerText = "ВАЖНО: Система NeuroScan является инструментом вспомогательной диагностики («второе мнение»). Данное заключение носит предварительный характер и не является окончательным диагнозом. Обязательна верификация и подпись лечащим врачом-рентгенологом.";
             const splitDisclaimer = doc.splitTextToSize(disclaimerText, 170);
-            doc.text(splitDisclaimer, 20, 190);
+            doc.text(splitDisclaimer, 20, 200);
             
             doc.setTextColor(0, 0, 0);
             doc.setFont("TimesNewRoman", "normal");
