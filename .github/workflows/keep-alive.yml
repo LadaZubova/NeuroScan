@@ -2,9 +2,8 @@ name: Keep Render Alive
 
 on:
   schedule:
-    # Запуск каждые 14 минут (до того, как Render заснет через 15 минут)
-    - cron: '*/14 * * * *'
-  workflow_dispatch: # Позволяет запустить вручную для проверки
+    - cron: '*/5 * * * *'
+  workflow_dispatch: 
 
 jobs:
   ping:
