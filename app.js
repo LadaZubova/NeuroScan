@@ -6,20 +6,25 @@ import base64
 import numpy as np
 import os
 
+# 1. СНАЧАЛА создаем приложение Flask
 app = Flask(__name__)
 CORS(app) 
 
+# 2. Затем загружаем модель
 print("Загрузка модели YOLO...")
 model = YOLO('best.pt')
 print("Модель успешно загружена!")
 
+# 3. Создаем маршрут для главной страницы (чтобы Render не выдавал 404)
+@app.route('/')
+def home():
+    return "NeuroScan YOLO Server is running!"
+
+# 4. Создаем маршрут для анализа
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
         data = request.json
-        if not data or 'image' not in data:
-            return jsonify({'success': False, 'error': 'Нет картинки'}), 400
-            
         image_data = data['image'].split(',')[1]
         image_bytes = base64.b64decode(image_data)
         
@@ -40,10 +45,7 @@ def predict():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/')
-def home():
-    return "NeuroScan YOLO Server is running!"
-
+# 5. Запуск сервера
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
