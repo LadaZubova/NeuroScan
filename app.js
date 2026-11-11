@@ -72,7 +72,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     placeholder.style.display = 'none';
     content.style.display = 'none';
     loading.style.display = 'block';
-    loading.textContent = "YOLO анализирует снимок...";
+    loading.textContent = "Анализ снимка...";
 
     preview.src = URL.createObjectURL(imageFile);
     preview.style.display = 'block';
@@ -95,7 +95,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
         if (data.success) {
           preview.src = data.image; 
           preview.style.display = 'block';
-          textRes.innerHTML = `<span style="color:#ef4444; font-weight:bold;">YOLO нашла зон: ${data.count}</span>`;
+          textRes.innerHTML = `<span style="color:#ef4444; font-weight:bold;">Найдено зон: ${data.count}</span>`;
           
           const protocolBlock = document.getElementById('yoloProtocol');
           const protocolContent = document.getElementById('yoloProtocolContent');
@@ -160,8 +160,7 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
           throw new Error(data.error);
         }
       } catch (err) {
-        console.error("Ошибка:", err);
-        loading.innerHTML = `<span style="color:#ef4444;">Ошибка: Сервер YOLO недоступен.</span><br><span style="font-size:12px;">Возможно, он "спит". Подождите 30-50 секунд и попробуйте снова.</span>`;
+        loading.innerHTML = `<span style="color:#ef4444;">Ошибка: Сервер временно недоступен.</span><br><span style="font-size:12px;">Подождите 30 секунд и попробуйте снова.</span>`;
       }
     };
   };
@@ -199,4 +198,57 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   scansInput.addEventListener('input', updateCalculator);
   priceInput.addEventListener('input', updateCalculator);
   updateCalculator();
+})();
+
+(function() {
+  const track = document.getElementById('carouselTrack');
+  const btnPrev = document.getElementById('carouselPrev');
+  const btnNext = document.getElementById('carouselNext');
+
+  if (!track || !btnPrev || !btnNext) return;
+
+  let autoScrollInterval;
+  const SCROLL_DELAY = 60000;
+
+  function getScrollAmount() {
+    const card = track.querySelector('.case-card');
+    return card ? card.offsetWidth + 24 : track.clientWidth;
+  }
+
+  function scrollNext() {
+    const amount = getScrollAmount();
+    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+  }
+
+  btnNext.addEventListener('click', () => {
+    scrollNext();
+    resetAutoScroll();
+  });
+
+  btnPrev.addEventListener('click', () => {
+    track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    resetAutoScroll();
+  });
+
+  function startAutoScroll() {
+    autoScrollInterval = setInterval(scrollNext, SCROLL_DELAY);
+  }
+
+  function stopAutoScroll() {
+    clearInterval(autoScrollInterval);
+  }
+
+  function resetAutoScroll() {
+    stopAutoScroll();
+    startAutoScroll();
+  }
+
+  track.addEventListener('mouseenter', stopAutoScroll);
+  track.addEventListener('mouseleave', startAutoScroll);
+
+  startAutoScroll();
 })();
