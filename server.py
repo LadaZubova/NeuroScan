@@ -14,19 +14,19 @@ from pytorch_grad_cam.utils.image import show_cam_on_image
 from PIL import Image
 
 app = Flask(__name__)
-CORS(app)
+CORS(app) # Разрешаем сайту отправлять запросы
 
 print("Загрузка моделей...")
+# 1. Загружаем YOLO
 yolo_model = YOLO('best.pt')
 
-# Загружаем ResNet18 (облегченную версию)
+# 2. Загружаем ResNet18 для Grad-CAM (облегченную версию)
 resnet = models.resnet18(pretrained=False)
 resnet.fc = torch.nn.Linear(resnet.fc.in_features, 2)
-# Загружаем веса с map_location='cpu' и сразу переводим в float16
 resnet.load_state_dict(torch.load('resnet_pneumonia.pth', map_location='cpu'))
-resnet.half() # Важно: переводим в тот же формат, в котором сохраняли
+resnet.half() # Переводим в float16
 resnet.eval()
-print("Модели загружены!")
+print("Модели успешно загружены!")
 
 @app.route('/')
 def home():
@@ -63,7 +63,7 @@ def predict():
         target_layers = [resnet.layer4[-1]]
         cam = GradCAM(model=resnet, target_layers=target_layers)
         
-        targets = [ClassifierOutputTarget(0)]
+        targets = [ClassifierOutputTarget(0)] # Класс 0 - Пневмония
         
         grayscale_cam = cam(input_tensor=input_tensor, targets=targets)
         grayscale_cam = grayscale_cam[0, :]
@@ -86,5 +86,5 @@ def predict():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    # Запускаем сервер локально на порту 5000
+    app.run(host='127.0.0.1', port=5000)
