@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.1.42:5000/predict';
+const API_URL = 'http://192.168.56.1:5000/predict';
 
 window.switchSegment = function(type) {
   const btnState = document.getElementById('btn-state');
