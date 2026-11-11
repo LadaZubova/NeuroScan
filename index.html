@@ -12,9 +12,9 @@
 <body>
 
 <header class="glass-header">
-  <button class="menu-toggle" id="menuToggle">☰</button>
+  <button class="menu-toggle" id="menuToggle" onclick="if(window.openMobileMenu){window.openMobileMenu();}else{var m=document.getElementById('mobileMenu');var o=document.getElementById('mobileMenuOverlay');if(m){m.style.left='0';if(o)o.style.display='block';document.body.style.overflow='hidden';}}">☰</button>
   <a href="#" class="logo"><span class="logo-mark">N</span> NeuroScan</a>
-  
+
   <div class="nav-links">
     <a href="#how">Как работает</a>
     <a href="#trust">Безопасность</a>
@@ -22,7 +22,7 @@
     <a href="#case">Кейс</a>
     <a href="#ai-demo">AI-демо</a>
   </div>
-  
+
   <div class="segmentation-switch">
     <button class="seg-btn active" id="btn-state" onclick="switchSegment('state')">Гос. больницы</button>
     <button class="seg-btn" id="btn-private" onclick="switchSegment('private')">Частные центры</button>
@@ -37,14 +37,14 @@
       <span class="hero-badge" id="hero-badge">Зарегистрированное медицинское изделие</span>
       <h1 id="hero-title">Сократите время на описание снимков КТ и рентгена <span class="accent">на 40%</span> с помощью продукта «NeuroScan»</h1>
       <p class="hero-sub" id="hero-sub">Зарегистрированная медицинская нейросеть «NeuroScan», которая находит до 95% скрытых патологий и автоматически формирует черновик заключения для врача-рентгенолога.</p>
-      
+
       <div class="hero-cta">
         <a href="#demo" class="btn btn-pill btn-primary">Получить демо-доступ на 14 дней</a>
         <a href="#ai-demo" class="btn btn-pill btn-glass">Попробовать AI-демо</a>
       </div>
       <p class="hero-micro" style="margin-top: 12px;"><span style="color: var(--accent);">* Требуется подтверждение статуса клиники</span></p>
     </div>
-    
+
     <div class="hero-image-block">
       <img src="./images/xray.jpg" alt="Рентген" class="hero-img">
       <div class="scanner-line"></div>
@@ -57,7 +57,7 @@
   <div class="container">
     <h2 class="section-title">Знакомые проблемы?</h2>
     <p class="section-sub">Врачи перегружены рутиной, а пациенты ждут результаты днями.</p>
-    
+
     <div class="pains-grid">
       <div class="glass-card pain-card">
         <div class="pain-number">01</div>
@@ -100,7 +100,7 @@
   <div class="container">
     <h2 class="section-title">Три шага до точного результата</h2>
     <p class="section-sub">Технологический процесс полностью встроен в привычный рабочий процесс врача-рентгенолога.</p>
-    
+
     <div class="steps">
       <div class="glass-card step">
         <div class="step-num">1</div>
@@ -148,11 +148,11 @@
   <div class="container">
     <h2 class="section-title">Цифры для главного врача</h2>
     <p class="section-sub">Язык цифр: понятная экономика и измеримый эффект от внедрения.</p>
-    
+
     <div class="econ-animation-wrapper" id="econAnimationTrigger">
-      
+
       <div class="econ-table" id="econCards">
-        <div class="glass-card econ-item card-left"> 
+        <div class="glass-card econ-item card-left">
           <div class="value">+35%</div>
           <div class="label">Пропускная способность отделения</div>
         </div>
@@ -175,7 +175,7 @@
           <h3>Калькулятор окупаемости</h3>
           <p>Введите данные вашей клиники, чтобы увидеть выгоду.</p>
         </div>
-        
+
         <div class="calc-grid">
           <div class="calc-inputs">
             <div class="calc-group">
@@ -209,14 +209,14 @@
     </div>
   </div>
 </section>
-  
+
 <section class="section case" id="case">
   <div class="container">
     <h2 class="section-title">Уже работает в клиниках</h2>
-    
+
     <div class="carousel-wrapper">
       <button class="carousel-btn carousel-btn-prev" id="carouselPrev">❮</button>
-      
+
       <div class="carousel-track" id="carouselTrack">
         <div class="glass-card case-card">
           <p class="case-quote">«Внедрение NeuroScan в сети клиник «Медиан» позволило сократить время выдачи заключений по снимкам грудной клетки с 40 до 18 минут. За 3 месяца система помогла выявить 14 ранних стадий онкологии».</p>
@@ -273,7 +273,7 @@
           </div>
         </div>
       </div>
-      
+
       <button class="carousel-btn carousel-btn-next" id="carouselNext">❯</button>
     </div>
   </div>
@@ -283,7 +283,7 @@
   <div class="container">
     <h2 class="section-title">Увидьте разницу за 5 секунд</h2>
     <p class="section-sub">Подвиньте ползунок: слева — обычный снимок, справа — тот же снимок с разметкой нейросети.</p>
-    
+
     <div class="ba-wrapper" id="baWrapper">
       <img src="./images/xray_before.jpg" alt="До" class="ba-img">
       <div class="ba-after" id="baAfter">
@@ -293,7 +293,7 @@
         <div class="ba-circle">⇆</div>
       </div>
     </div>
-    
+
     <div class="ba-labels">
       <span>До: обычный снимок</span>
       <span style="color: var(--accent);">После: разметка NeuroScan</span>
@@ -305,7 +305,7 @@
   <div class="container" style="position: relative; z-index: 2;">
     <h2 class="section-title">Живое AI-демо</h2>
     <p class="section-sub">Загрузите снимок — нейросеть выделит зоны патологии и сформирует протокол.</p>
-    
+
     <div class="ai-demo-grid">
       <div class="glass-card ai-drop" id="yoloDrop">
         <input type="file" id="yoloFile" accept="image/*" hidden>
@@ -317,15 +317,14 @@
       </div>
       <div class="glass-card ai-result" id="yoloResult">
         <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат анализа</div>
-        
+
         <div id="yoloContent" style="display:none;">
           <div class="ai-status">✓ Анализ завершён</div>
           <div id="yoloText" style="font-size: 18px; margin-bottom: 20px;"></div>
-          
-          <!-- БЛОК ПРОТОКОЛА С ДВУМЯ КАРТИНКАМИ -->
+
           <div id="yoloProtocol" style="display:none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
             <h4 style="color: var(--accent); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Черновик заключения:</h4>
-            
+
             <div style="display: flex; gap: 12px; margin-bottom: 16px; justify-content: center;">
               <div style="text-align: center; flex: 1;">
                 <img id="yoloProtocolImg" style="width: 100%; max-width: 140px; height: auto; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Разметка">
@@ -336,9 +335,9 @@
                 <div style="font-size: 12px; margin-top: 4px; color: var(--text-muted);">Тепловая карта</div>
               </div>
             </div>
-            
+
             <p id="yoloProtocolContent" style="font-size: 14px; color: var(--text-main); line-height: 1.5; margin-bottom: 16px;"></p>
-            
+
             <button id="downloadProtocolBtn" class="btn btn-pill btn-primary" style="width: 100%; font-size: 14px; padding: 10px;">
               Скачать протокол (PDF)
             </button>
@@ -346,7 +345,7 @@
 
           <div class="ai-meta" style="margin-top: 20px;">Модель: NeuroScan v1.0 · Время: <span id="yoloTime">—</span></div>
         </div>
-        
+
         <div class="ai-loading" id="yoloLoading" style="display:none;">Запрос к серверу...</div>
       </div>
     </div>
@@ -359,17 +358,17 @@
       <h2 class="section-title" style="text-align: center; margin-bottom: 24px; font-size: 32px;">
         Закажите персональную онлайн-демонстрацию для вашей клиники
       </h2>
-      
+
       <form id="leadForm">
         <div class="form-group"><input type="text" id="name" placeholder="Имя" required></div>
         <div class="form-group"><input type="tel" id="phone" placeholder="Телефон" required></div>
         <div class="form-group"><input type="text" id="clinic" placeholder="Название клиники / Должность" required></div>
         <div class="form-group"><input type="email" id="email" placeholder="Корпоративный Email" required></div>
-        
+
         <button type="submit" class="btn btn-pill btn-primary" style="width: 100%;">
           Посмотреть систему в действии
         </button>
-        
+
         <div class="form-success" id="formSuccess" style="display:none; margin-top: 20px; color: var(--accent); text-align: center;">
           ✓ Спасибо! Мы свяжемся с вами.
         </div>
@@ -402,10 +401,11 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Боковое меню для мобильных -->
+
+<!-- Боковое меню для мобильных -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+  <button class="mobile-menu-close" id="mobileMenuClose" onclick="closeMobileMenu()">✕</button>
   <nav class="mobile-nav-links">
     <a href="#how" onclick="closeMobileMenu()">Как работает</a>
     <a href="#trust" onclick="closeMobileMenu()">Безопасность</a>
@@ -414,13 +414,88 @@
     <a href="#ai-demo" onclick="closeMobileMenu()">AI-демо</a>
     <a href="#demo" class="btn btn-primary" style="margin-top: 16px;" onclick="closeMobileMenu()">Демо-доступ</a>
   </nav>
-  
-  <!-- Переключатель для мобильных -->
+
   <div class="mobile-segmentation">
     <button class="seg-btn active" id="mob-btn-state" onclick="switchSegment('state')">Гос. больницы</button>
     <button class="seg-btn" id="mob-btn-private" onclick="switchSegment('private')">Частные центры</button>
   </div>
 </div>
+
+<!-- Инициализация мобильного меню ДО app.js -->
+<script>
+  (function() {
+    function initMobileMenu() {
+      var menuToggle = document.getElementById('menuToggle');
+      var mobileMenu = document.getElementById('mobileMenu');
+      var mobileMenuClose = document.getElementById('mobileMenuClose');
+      var overlay = document.getElementById('mobileMenuOverlay');
+
+      if (!menuToggle || !mobileMenu) {
+        console.warn('Mobile menu: элементы не найдены');
+        return;
+      }
+
+      mobileMenu.style.position = 'fixed';
+      mobileMenu.style.top = '0';
+      mobileMenu.style.left = '-100%';
+      mobileMenu.style.width = '85%';
+      mobileMenu.style.maxWidth = '360px';
+      mobileMenu.style.height = '100vh';
+      mobileMenu.style.zIndex = '9999';
+      mobileMenu.style.transition = 'left 0.3s ease';
+      mobileMenu.style.overflowY = 'auto';
+
+      if (overlay) {
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.background = 'rgba(0,0,0,0.5)';
+        overlay.style.zIndex = '9998';
+        overlay.style.display = 'none';
+      }
+
+      window.openMobileMenu = function() {
+        mobileMenu.style.left = '0';
+        if (overlay) overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      };
+
+      window.closeMobileMenu = function() {
+        mobileMenu.style.left = '-100%';
+        if (overlay) overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      };
+
+      menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openMobileMenu();
+      });
+
+      if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.closeMobileMenu();
+        });
+      }
+
+      if (overlay) {
+        overlay.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.closeMobileMenu();
+        });
+      }
+
+      console.log('Mobile menu: инициализировано');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileMenu);
+    } else {
+      initMobileMenu();
+    }
+  })();
+</script>
+
 <script src="./app.js"></script>
 </body>
 </html>
