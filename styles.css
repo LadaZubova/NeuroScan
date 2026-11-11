@@ -917,3 +917,9 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     margin: 0;
   }
 }
+/* На мобильных AI-демо скрыто полностью */
+@media (max-width: 768px) {
+  #ai-demo {
+    display: none !important;
+  }
+}
