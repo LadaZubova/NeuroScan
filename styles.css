@@ -327,9 +327,7 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   font-size: 14px;
 }
 
-/* ============================================================
-   СКРОЛЛ-АНИМАЦИЯ ДЛЯ ЭКОНОМИКИ
-   ============================================================ */
+/* СКРОЛЛ-АНИМАЦИЯ ДЛЯ ЭКОНОМИКИ */
 .econ-animation-wrapper {
   position: relative;
   max-width: 1000px;
@@ -415,4 +413,16 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
     gap: 32px;
     padding-top: 40px;
   }
+  /* АНИМАЦИЯ ПОЯВЛЕНИЯ / ИСЧЕЗНОВЕНИЯ ПРИ СКРОЛЛЕ */
+.reveal-item {
+  opacity: 0.1;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-item.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
 }
