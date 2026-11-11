@@ -273,3 +273,30 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
 
   observer.observe(trigger);
 })();
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ / ИСЧЕЗНОВЕНИЯ  */
+(function() {
+  const elementsToAnimate = document.querySelectorAll(
+    '.glass-card, .section-title, .section-sub, .hero-text-block, .hero-image-block'
+  );
+
+  elementsToAnimate.forEach(el => {
+    el.classList.add('reveal-item');
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-active');
+      } else {
+        entry.target.classList.remove('is-active');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: "0px 0px -50px 0px"
+  });
+
+  elementsToAnimate.forEach(el => {
+    observer.observe(el);
+  });
+})();
