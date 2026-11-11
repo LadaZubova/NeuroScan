@@ -252,3 +252,24 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
 
   startAutoScroll();
 })();
+
+/* ---------- 9. СКРОЛЛ-АНИМАЦИЯ ЭКОНОМИКИ ---------- */
+(function() {
+  const trigger = document.getElementById('econAnimationTrigger');
+  const cards = document.getElementById('econCards');
+
+  if (!trigger || !cards) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        cards.classList.add('is-visible');
+        observer.unobserve(trigger);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  observer.observe(trigger);
+})();
