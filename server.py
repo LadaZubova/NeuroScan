@@ -5,26 +5,13 @@ import cv2
 import base64
 import numpy as np
 import os
-import torch
-import torchvision.models as models
-import torchvision.transforms as transforms
-from pytorch_grad_cam import GradCAM
-from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
-from pytorch_grad_cam.utils.image import show_cam_on_image
-from PIL import Image
 
 app = Flask(__name__)
 CORS(app)
 
-print("Загрузка моделей...")
+print("Загрузка модели...")
 yolo_model = YOLO('best.pt')
-
-resnet = models.resnet18(pretrained=False)
-resnet.fc = torch.nn.Linear(resnet.fc.in_features, 2)
-resnet.load_state_dict(torch.load('resnet_pneumonia.pth', map_location='cpu'))
-resnet.half()
-resnet.eval()
-print("Модели успешно загружены!")
+print("Модель загружена!")
 
 @app.route('/')
 def home():
@@ -39,48 +26,43 @@ def predict():
         
         np_arr = np.frombuffer(image_bytes, np.uint8)
         img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-
+        
         # 1. YOLO (рамки)
         results = yolo_model(img_bgr)
         res_img = results[0].plot()
         _, buffer = cv2.imencode('.jpg', res_img)
         img_base64 = base64.b64encode(buffer).decode('utf-8')
 
-        # 2. Grad-CAM (Настоящая тепловая карта)
-        img_pil = Image.fromarray(img_rgb)
-        transform = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ])
-        input_tensor = transform(img_pil).unsqueeze(0)
-        input_tensor = input_tensor.half()
-        input_tensor.requires_grad = True
+        # 2. "Тепловая карта" на основе рамок
+        heatmap_img = img_bgr.copy()
+        boxes = results[0].boxes
+        
+        if len(boxes) > 0:
+            for box in boxes:
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                
+                # Рисуем градиентный круг внутри каждой рамки
+                center_x = (x1 + x2) // 2
+                center_y = (y1 + y2) // 2
+                radius = max((x2 - x1) // 2, (y2 - y1) // 2)
+                
+                # Создаем слой для градиента
+                overlay = heatmap_img.copy()
+                cv2.circle(overlay, (center_x, center_y), radius, (0, 0, 255), -1)  # Красный
+                cv2.circle(overlay, (center_x, center_y), int(radius * 0.6), (0, 165, 255), -1)  # Оранжевый
+                cv2.circle(overlay, (center_x, center_y), int(radius * 0.3), (0, 255, 255), -1)  # Желтый
+                
+                # Смешиваем с оригиналом (прозрачность 50%)
+                cv2.addWeighted(overlay, 0.5, heatmap_img, 0.5, 0, heatmap_img)
 
-        target_layers = [resnet.layer4[-1]]
-        cam = GradCAM(model=resnet, target_layers=target_layers)
-        
-        targets = [ClassifierOutputTarget(0)]
-        
-        grayscale_cam = cam(input_tensor=input_tensor, targets=targets)
-        grayscale_cam = grayscale_cam[0, :]
-        
-        # ⚠️ ИСПРАВЛЕНИЕ: Изменяем размер тепловой карты под размер оригинала
-        grayscale_cam = cv2.resize(grayscale_cam, (img_rgb.shape[1], img_rgb.shape[0]))
-        
-        img_float = np.float32(img_rgb) / 255
-        heatmap_img = show_cam_on_image(img_float, grayscale_cam, use_rgb=True)
-        
-        heatmap_bgr = cv2.cvtColor(heatmap_img, cv2.COLOR_RGB2BGR)
-        _, heatmap_buffer = cv2.imencode('.jpg', heatmap_bgr)
+        _, heatmap_buffer = cv2.imencode('.jpg', heatmap_img)
         heatmap_base64 = base64.b64encode(heatmap_buffer).decode('utf-8')
 
         return jsonify({
             'success': True,
             'image': f'data:image/jpeg;base64,{img_base64}',
             'heatmap': f'data:image/jpeg;base64,{heatmap_base64}',
-            'count': len(results[0].boxes)
+            'count': len(boxes)
         })
     except Exception as e:
         print("Ошибка:", e)
