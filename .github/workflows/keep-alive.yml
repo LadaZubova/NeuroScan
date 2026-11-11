@@ -1,0 +1,17 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    # Запуск каждые 14 минут (до того, как Render заснет через 15 минут)
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Позволяет запустить вручную для проверки
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Server
+        run: |
+          # Стучимся на главную страницу твоего сервера
+          curl -sS --max-time 60 https://neuroscan-keie.onrender.com/ > /dev/null
+          echo "Server pinged successfully!"
