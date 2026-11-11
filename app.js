@@ -84,7 +84,6 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
       const t0 = performance.now();
 
       try {
-        // ИЗМЕНЕНО: адрес теперь локальный
         const response = await fetch('http://127.0.0.1:5000/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -186,13 +185,12 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   };
 })();
 
+/* ---------- 7. КАЛЬКУЛЯТОР ОКУПАЕМОСТИ ---------- */
 (function() {
-  const scansInput = document.getElementById('calc-scans');
-  const priceInput = document.getElementById('calc-price');
+  const scansInput = document.getElementById('calc-scans-input');
+  const priceInput = document.getElementById('calc-price-input');
   if (!scansInput || !priceInput) return;
 
-  const scansVal = document.getElementById('calc-scans-val');
-  const priceVal = document.getElementById('calc-price-val');
   const revenueOut = document.getElementById('calc-revenue');
   const timeOut = document.getElementById('calc-time');
 
@@ -201,11 +199,8 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   }
 
   function updateCalculator() {
-    const scans = parseInt(scansInput.value);
-    const price = parseInt(priceInput.value);
-
-    scansVal.textContent = scans;
-    priceVal.textContent = price;
+    const scans = parseInt(scansInput.value) || 0;
+    const price = parseInt(priceInput.value) || 0;
 
     const currentRevenue = scans * price;
     const extraRevenue = Math.round(currentRevenue * 0.35);
