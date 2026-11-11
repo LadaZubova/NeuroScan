@@ -260,7 +260,6 @@ h1 .accent { color: var(--accent); font-style: italic; }
 .calc-group label { display: block; font-size: 15px; margin-bottom: 12px; color: var(--bg-color); font-weight: 600; }
 .calc-group label span { color: var(--bg-color); font-weight: bold; font-size: 18px; }
 
-/* ⚠️ НОВЫЕ СТИЛИ ДЛЯ ПОЛЕЙ ВВОДА */
 .input-with-icon {
   position: relative;
   display: flex;
@@ -413,7 +412,9 @@ footer { border-top: 1px solid var(--card-border); padding: 30px 0; background: 
   transform: translateY(0) scale(1);
 }
 
-/* АДАПТИВ */
+/* ============================================================
+   АДАПТИВ (ВСЁ В КОНЦЕ)
+   ============================================================ */
 @media (max-width: 1000px) { 
   .segmentation-switch { display: none; } 
 }
