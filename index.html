@@ -7,11 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=15">
+  <link rel="stylesheet" href="./styles.css?v=16">
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="glass-header">
   <a href="#" class="logo"><span class="logo-mark">N</span> NeuroScan</a>
   
@@ -31,7 +30,6 @@
   <a href="#demo" class="btn btn-pill btn-primary" style="padding: 10px 20px; font-size: 14px;">Демо-доступ</a>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-wrapper">
     <div class="hero-text-block">
@@ -54,7 +52,6 @@
   </div>
 </section>
 
-<!-- PAINS -->
 <section class="section pains">
   <div class="container">
     <h2 class="section-title">Знакомые проблемы?</h2>
@@ -87,7 +84,7 @@
       </div>
     </div>
 
-    <div class="glass-card solution-banner" style="margin-top: 32px; text-align: center; border-left: 4px solid var(--accent);">
+    <div class="glass-card solution-banner" style="margin-top: 32px; text-align: center;">
       <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 12px; color: var(--text-main);">
         Решение: «AI-Радиолог: Второе мнение для региональной медицины»
       </h3>
@@ -98,7 +95,6 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="section how" id="how">
   <div class="container">
     <h2 class="section-title">Три шага до точного результата</h2>
@@ -124,7 +120,6 @@
   </div>
 </section>
 
-<!-- TRUST -->
 <section class="section trust" id="trust">
   <div class="container">
     <h2 class="section-title">Доверие. Точность. Безопасность.</h2>
@@ -148,7 +143,6 @@
   </div>
 </section>
 
-<!-- ECONOMICS -->
 <section class="section economics" id="economics">
   <div class="container">
     <h2 class="section-title">Цифры для главного врача</h2>
@@ -206,31 +200,25 @@
   </div>
 </section>
   
-<!-- CASE -->
 <section class="section case" id="case">
   <div class="container">
     <h2 class="section-title">Уже работает в клиниках</h2>
     
     <div class="carousel-wrapper">
-      <!-- Кнопка "Назад" -->
       <button class="carousel-btn carousel-btn-prev" id="carouselPrev">❮</button>
       
-      <!-- Контейнер с отзывами -->
       <div class="carousel-track" id="carouselTrack">
-        
-        <!-- Отзыв 1 -->
         <div class="glass-card case-card">
-          <p class="case-quote">«Внедрение NeuroScan в сети клиник «Медиан» позволило сократить время выдачи заключений по КТ лёгких с 40 до 18 минут. За 3 месяца система помогла выявить 14 ранних стадий онкологии».</p>
+          <p class="case-quote">«Внедрение NeuroScan в сети клиник «Медиан» позволило сократить время выдачи заключений по снимкам грудной клетки с 40 до 18 минут. За 3 месяца система помогла выявить 14 ранних стадий онкологии».</p>
           <div class="case-author">
-            <div class="case-avatar">АК</div>
+            <div class="case-avatar">АС</div>
             <div>
-              <div class="name">Алексей Ковалёв</div>
+              <div class="name">Андрей Соколов</div>
               <div class="role">Заведующий отделением лучевой диагностики, сеть клиник «Медиан»</div>
             </div>
           </div>
         </div>
 
-        <!-- Отзыв 2 -->
         <div class="glass-card case-card">
           <p class="case-quote">«В региональной больнице №4 внедрение ИИ-ассистента позволило полностью убрать очереди на КТ. Врачи перестали задерживаться после смены, а пациенты получают результаты в день обращения».</p>
           <div class="case-author">
@@ -242,9 +230,8 @@
           </div>
         </div>
 
-        <!-- Отзыв 3 -->
         <div class="glass-card case-card">
-          <p class="case-quote">«Мы скептически относились к ИИ, но система зарекомендовала себя как надежный помощник. Подсветка зон риска на снимках помогает молодым специалистам не пропускать сложные случаи».</p>
+          <p class="case-quote">«Мы скептически относились к ИИ, но система зарекомендовала себя как надежный помощник. Подсветка зон риска на снимках помогает молодым специалистам не пропускать сложные случаи пневмонии».</p>
           <div class="case-author">
             <div class="case-avatar">ДМ</div>
             <div>
@@ -254,16 +241,34 @@
           </div>
         </div>
 
+        <div class="glass-card case-card">
+          <p class="case-quote">«Благодаря NeuroScan мы смогли увеличить пропускную способность отделения на 35% без расширения штата. Это огромный прорыв для нашей клиники».</p>
+          <div class="case-author">
+            <div class="case-avatar">ЕП</div>
+            <div>
+              <div class="name">Елена Петрова</div>
+              <div class="role">Директор медицинского центра «Медикус»</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card case-card">
+          <p class="case-quote">«Интеграция с PACS прошла гладко. Теперь врачи тратят на рутину на 40% меньше времени, а освободившиеся часы посвящают сложным случаям и общению с пациентами».</p>
+          <div class="case-author">
+            <div class="case-avatar">СВ</div>
+            <div>
+              <div class="name">Сергей Волков</div>
+              <div class="role">IT-директор сети клиник «Здоровая нация»</div>
+            </div>
+          </div>
+        </div>
       </div>
       
-      <!-- Кнопка "Вперед" -->
       <button class="carousel-btn carousel-btn-next" id="carouselNext">❯</button>
     </div>
-
   </div>
 </section>
 
-<!-- BEFORE / AFTER SLIDER -->
 <section class="section ba-section">
   <div class="container">
     <h2 class="section-title">Увидьте разницу за 5 секунд</h2>
@@ -281,40 +286,37 @@
     
     <div class="ba-labels">
       <span>До: обычный снимок</span>
-      <span style="color: var(--accent);">После: разметка YOLO</span>
+      <span style="color: var(--accent);">После: разметка NeuroScan</span>
     </div>
   </div>
 </section>
 
-<!-- AI DEMO -->
 <section class="section ai-demo-section" id="ai-demo">
   <div class="container" style="position: relative; z-index: 2;">
     <h2 class="section-title">Живое AI-демо</h2>
-    <p class="section-sub">Загрузите снимок — нейросеть YOLO выделит зоны патологии и сформирует протокол.</p>
+    <p class="section-sub">Загрузите снимок — нейросеть выделит зоны патологии и сформирует протокол.</p>
     
-    <!-- Оставили только YOLO -->
     <div class="ai-demo-grid">
       <div class="glass-card ai-drop" id="yoloDrop">
         <input type="file" id="yoloFile" accept="image/*" hidden>
         <div class="ai-drop-inner" id="yoloDropInner">
           <div class="ai-drop-title">Загрузите снимок</div>
-          <div class="ai-drop-sub">YOLO выделит рамки</div>
+          <div class="ai-drop-sub">Нейросеть выделит рамки</div>
         </div>
         <img id="yoloPreview" style="display:none; width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; z-index:1;">
       </div>
       <div class="glass-card ai-result" id="yoloResult">
-        <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат YOLO</div>
+        <div class="ai-result-placeholder" id="yoloPlaceholder">Здесь появится результат анализа</div>
         
         <div id="yoloContent" style="display:none;">
-          <div class="ai-status">✓ YOLO завершил анализ</div>
+          <div class="ai-status">✓ Анализ завершён</div>
           <div id="yoloText" style="font-size: 18px; margin-bottom: 20px;"></div>
           
-          <!-- БЛОК ПРОТОКОЛА С КАРТИНКОЙ И КНОПКОЙ СКАЧИВАНИЯ -->
           <div id="yoloProtocol" style="display:none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
             <h4 style="color: var(--accent); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Черновик заключения:</h4>
             
             <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
-              <img id="yoloProtocolImg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Снимок YOLO">
+              <img id="yoloProtocolImg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent);" alt="Снимок">
               <p id="yoloProtocolContent" style="font-size: 14px; color: var(--text-main); line-height: 1.5; flex: 1;"></p>
             </div>
             
@@ -323,7 +325,7 @@
             </button>
           </div>
 
-          <div class="ai-meta" style="margin-top: 20px;">Модель: YOLOv8 (Python) · Время: <span id="yoloTime">—</span></div>
+          <div class="ai-meta" style="margin-top: 20px;">Модель: NeuroScan v1.0 · Время: <span id="yoloTime">—</span></div>
         </div>
         
         <div class="ai-loading" id="yoloLoading" style="display:none;">Запрос к серверу...</div>
@@ -332,7 +334,6 @@
   </div>
 </section>
 
-<!-- FORM -->
 <section class="section form-section" id="demo">
   <div class="container">
     <div class="glass-card form-wrap">
@@ -359,33 +360,19 @@
 </section>
 
 <footer>
-  <div class="container footer-grid" style="grid-template-columns: 1fr 1fr; gap: 60px; padding-top: 50px; padding-bottom: 40px;">
-    
-    <!-- Колонка 1: Контакты -->
+  <div class="container footer-grid">
     <div class="footer-col">
-      <h4 style="font-size: 22px; margin-bottom: 24px;">Связаться с нами</h4>
-      <a href="tel:+74951234567" class="contact-link" style="font-size: 18px; margin-bottom: 16px; color: var(--text-main);">
-        +7 (495) 123-45-67
-      </a>
-      <a href="mailto:hello@neuroscan.ai" class="contact-link" style="font-size: 18px; color: var(--text-main);">
-        hello@neuroscan.ai
-      </a>
+      <h4>Связаться с нами</h4>
+      <a href="tel:+74951234567" class="contact-link">+7 (495) 123-45-67</a>
+      <a href="mailto:hello@neuroscan.ai" class="contact-link">hello@neuroscan.ai</a>
     </div>
-
-    <!-- Колонка 2: Реквизиты -->
     <div class="footer-col">
-      <h4 style="font-size: 22px; margin-bottom: 24px;">Реквизиты</h4>
-      <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 12px;">
-        ООО «НейроСкан»
-      </p>
-      <p style="color: var(--text-muted); font-size: 16px; line-height: 1.5;">
-        г. Москва, Пресненская наб., 12
-      </p>
+      <h4>Реквизиты</h4>
+      <p class="footer-text">ООО «НейроСкан»</p>
+      <p class="footer-text">г. Москва, Пресненская наб., 12</p>
     </div>
-
   </div>
 
-  <!-- Нижняя полоса с копирайтом -->
   <div class="footer-bottom">
     <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; align-items: center;">
       <span>© 2026 NeuroScan. Все права защищены.</span>
@@ -394,6 +381,7 @@
     </div>
   </div>
 </footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="./app.js"></script>
 </body>
